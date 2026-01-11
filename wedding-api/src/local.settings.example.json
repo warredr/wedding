@@ -1,0 +1,17 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+
+    "Rsvp__QrAccessKey": "<GUID>",
+    "Rsvp__SixDigitAccessCode": "662026",
+    "Rsvp__SessionSigningKey": "<random-long-string>",
+    "Rsvp__SessionTtlMinutes": "120",
+    "Rsvp__AdminKey": "<GUID>",
+    "Rsvp__DeadlineDate": "2026-05-01",
+
+    "AzureFunctionsJobHost__extensions__http__cors__allowedOrigins": "http://localhost:4200",
+    "AzureFunctionsJobHost__extensions__http__cors__supportCredentials": "true"
+  }
+}

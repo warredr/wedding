@@ -1,0 +1,11 @@
+<div class="row">
+	<button
+		*ngFor="let o of options"
+		type="button"
+		class="button"
+		[disabled]="o.value === value"
+		(click)="set(o.value)"
+	>
+		{{ o.label }}
+	</button>
+</div>

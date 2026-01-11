@@ -1,0 +1,79 @@
+<div
+	class="page page--search page--entering"
+	[class.page--entering-right]="enteringFromRight"
+	[class.page--leaving-right]="leavingToRight"
+	(touchstart)="onTouchStart($event)"
+	(touchend)="onTouchEnd($event)"
+>
+	<app-top-bar
+		backLabel="Ga terug"
+		[showBackArrow]="true"
+		[preventDefaultBack]="true"
+		(backPressed)="goBack()"
+	></app-top-bar>
+	<div class="page__content">
+		<div class="card">
+			<h1 class="title">Zoek je naam</h1>
+
+			<div class="field">
+					<div class="input-wrap">
+						<input
+							#searchInput
+							type="search"
+							class="input input--withClear"
+							[value]="q"
+							(input)="onInput(($any($event.target).value))"
+							placeholder="Typ je naam…"
+							inputmode="search"
+							enterkeyhint="search"
+							autocorrect="off"
+							autocomplete="off"
+							spellcheck="false"
+							aria-label="Zoek je naam"
+						/>
+
+						<button
+							type="button"
+							class="input-clear"
+							*ngIf="q.trim().length > 0"
+							(click)="clearQuery()"
+							aria-label="Wis zoekveld"
+						>
+							×
+						</button>
+					</div>
+
+
+
+				<div *ngIf="notice" class="notice-card" aria-live="polite">
+					<p class="label">{{ notice === 'group_confirmed' ? 'Deze groep is bevestigd' : 'Even geduld' }}</p>
+					<p class="muted">
+						{{ notice === 'group_confirmed' ? 'Je kan hier niets meer aanpassen.' : lockedNoticeText }}
+					</p>
+				</div>
+
+				<div *ngIf="loading" class="search-loading" aria-live="polite">
+					<span class="spinner" aria-hidden="true"></span>
+					<span class="muted">Zoeken…</span>
+				</div>
+				<p *ngIf="error" class="error">{{ error }}</p>
+
+						<div
+							*ngIf="!loading && q.trim().length >= 3 && lastCompletedQuery === q.trim() && results.length === 0"
+							class="empty-state"
+						>
+					<p class="empty-state__title">Geen resultaten</p>
+					<p class="empty-state__hint">Probeer een andere spelling of gebruik je volledige voornaam + achternaam.</p>
+					</div>
+
+					<app-dropdown-list
+						*ngIf="results.length > 0"
+						[items]="dropdownItems"
+						(selectItem)="onSelectDropdownItem($event)"
+					></app-dropdown-list>
+				</div>
+			</div>
+		</div>
+
+	<div class="page-background" aria-hidden="true"></div>
+</div>

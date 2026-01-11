@@ -1,0 +1,13 @@
+<div *ngIf="confirmModal.state().open" class="overlay">
+	<div class="card confirm-modal">
+		<div class="stack">
+			<h2 class="title confirm-modal__title">Let op</h2>
+			<p class="muted">{{ confirmModal.state().message }}</p>
+
+			<div class="row">
+				<button type="button" class="button button--secondary confirm-modal__button" (click)="confirmModal.cancel()">Annuleren</button>
+				<button type="button" class="button confirm-modal__button" (click)="confirmModal.confirm()">Verlaten</button>
+			</div>
+		</div>
+	</div>
+</div>

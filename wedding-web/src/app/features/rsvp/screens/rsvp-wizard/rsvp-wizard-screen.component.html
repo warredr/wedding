@@ -1,0 +1,133 @@
+<div class="page">
+	<app-top-bar
+		backLabel="Ga terug"
+		[showBackArrow]="true"
+		[preventDefaultBack]="true"
+		(backPressed)="onBackPressed()"
+	></app-top-bar>
+
+	<div class="page__content">
+		<div *ngIf="loading" class="card">
+			<p class="muted">Laden…</p>
+		</div>
+
+		<div *ngIf="!loading && error" class="card">
+			<p class="error">{{ error }}</p>
+			<div class="stack mt12">
+				<button type="button" class="button" (click)="backToSearch()">Terug naar zoeken</button>
+			</div>
+		</div>
+
+		<ng-container *ngIf="!loading && !error && draft.state() as s">
+			<div *ngIf="s.members.length > 1" class="rsvp-personTabs" aria-label="Personen">
+				<button
+					*ngFor="let m of s.members"
+					type="button"
+					class="rsvp-personTabs__item"
+					[class.rsvp-personTabs__item--active]="m.personId === s.currentPersonId"
+					(click)="goToPerson(m.personId)"
+				>
+					<span
+						class="rsvp-personTabs__check"
+						[class.rsvp-personTabs__check--done]="draft.completionByPersonId()[m.personId]"
+						aria-hidden="true"
+					>✓</span>
+					<span class="rsvp-personTabs__name">{{ personFirstName(m.fullName) }}</span>
+				</button>
+			</div>
+
+			<div class="card mt12">
+				<div class="stack" *ngIf="draft.currentPersonDraft() as d">
+					<div class="rsvp-personHeader">
+						<div class="rsvp-personName">{{ draft.currentPerson()?.fullName }}</div>
+					</div>
+
+					<div *ngIf="popupMessage" class="notice-card" (click)="closePopup()" role="button" tabindex="0">
+						<p class="muted">{{ popupMessage }}</p>
+					</div>
+
+					<div class="rsvp-grid">
+						<div class="rsvp-grid__item" *ngIf="s.invitedToEvents.includes('Dinner')">
+							<app-toggle-yes-no
+								label="Ben je aanwezig op het diner?"
+								[value]="d.dinnerAttending"
+								(valueChange)="setDinnerAttending($event)"
+							></app-toggle-yes-no>
+						</div>
+
+						<div class="rsvp-grid__item" *ngIf="s.invitedToEvents.includes('EveningParty')">
+							<app-toggle-yes-no
+								label="Ben je aanwezig op het avondfeest?"
+								[value]="d.eveningPartyAttending"
+								(valueChange)="setEveningPartyAttending($event)"
+							></app-toggle-yes-no>
+						</div>
+
+						<div
+							class="rsvp-grid__item"
+							*ngIf="!s.invitedToEvents.includes('Dinner') && !s.invitedToEvents.includes('EveningParty')"
+						>
+							<app-toggle-yes-no
+								label="Ben je aanwezig?"
+								[value]="d.attending === null ? null : d.attending === 'Yes'"
+								(valueChange)="setAttending($event)"
+							></app-toggle-yes-no>
+						</div>
+
+						<div class="rsvp-grid__item" *ngIf="d.attending === 'Yes'">
+							<app-toggle-yes-no
+								[label]="allergiesLabel(s)"
+								[value]="d.hasAllergies ?? null"
+								(valueChange)="setHasAllergies($event)"
+							></app-toggle-yes-no>
+						</div>
+					</div>
+
+					<ng-container *ngIf="d.attending === 'Yes'">
+						<div *ngIf="d.hasAllergies === true" class="field">
+							<div class="label">Welke?</div>
+							<textarea
+								class="input input--textarea"
+								rows="4"
+								placeholder="Bijv. noten, gluten, lactose…"
+								aria-label="Allergieën"
+								[ngModel]="d.allergiesText"
+								(ngModelChange)="setAllergiesText($event)"
+							></textarea>
+						</div>
+					</ng-container>
+
+					<p *ngIf="showErrors" class="error">Vul alles eerst in.</p>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+
+	<div *ngIf="!loading && !error && draft.state() as s" class="bottom-actions bottom-actions--fullbleed">
+		<div class="bottom-actions__inner">
+			<button
+				type="button"
+				class="button cta-button"
+				[class.cta-button--submitting]="isFinalStep(s) && finalSubmitPhase === 'submitting'"
+				[class.cta-button--success]="isFinalStep(s) && finalSubmitPhase === 'success'"
+				[disabled]="saving"
+				(click)="next()"
+			>
+				<ng-container *ngIf="isFinalStep(s) && finalSubmitPhase === 'submitting'">
+					<span class="spinner" aria-hidden="true"></span>
+				</ng-container>
+
+				<ng-container *ngIf="isFinalStep(s) && finalSubmitPhase === 'success'">
+					<span class="cta-button__check" aria-hidden="true">✓</span>
+					<span class="cta-button__text">Bedankt!</span>
+				</ng-container>
+
+				<ng-container *ngIf="!(isFinalStep(s) && (finalSubmitPhase === 'submitting' || finalSubmitPhase === 'success'))">
+					<span class="cta-button__text">{{ nextButtonLabel(s) }}</span>
+					<span class="cta-button__arrow" aria-hidden="true">→</span>
+				</ng-container>
+			</button>
+		</div>
+	</div>
+
+</div>

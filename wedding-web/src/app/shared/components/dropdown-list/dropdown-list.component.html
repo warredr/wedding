@@ -1,0 +1,30 @@
+<div class="dropdown-list">
+  <button
+    *ngFor="let item of items"
+    type="button"
+    class="dropdown-list__item"
+    [class]="item.class"
+    (click)="onSelect(item)"
+    [disabled]="!!item.disabled"
+  >
+    <div class="dropdown-list__content">
+      <span *ngIf="item.isConfirmed" class="dropdown-list__checkmark" aria-hidden="true">✓</span>
+      <div class="dropdown-list__text">
+        <div class="dropdown-list__primary">{{ item.primary }}</div>
+        <div *ngIf="item.secondary" class="dropdown-list__secondary">{{ item.secondary }}</div>
+      </div>
+    </div>
+    <span class="dropdown-list__chevron" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" focusable="false" role="presentation">
+        <path
+          d="M9 6l6 6-6 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </button>
+</div>

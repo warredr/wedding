@@ -1,0 +1,150 @@
+<div
+  class="page page--invite page--welcome page--entering"
+  [class.page--leaving]="leaving"
+  [class.page--entering-left]="enteringFromLeft"
+>
+  <div class="welcome-hero" aria-hidden="true"></div>
+
+  <div class="page__content welcome-content">
+    <div class="invite-card invite-card--welcome">
+      <div class="welcome-curve" aria-hidden="true">
+        <svg
+          class="welcome-curve__svg"
+          viewBox="0 0 520 140"
+          preserveAspectRatio="xMidYMin meet"
+          role="presentation"
+          focusable="false"
+        >
+          <path id="welcomeArc" d="M 30 108 Q 260 10 490 108" fill="none" />
+          <text class="welcome-curve__text">
+            <textPath href="#welcomeArc" startOffset="50%" text-anchor="middle">
+              Come for the love, stay for the party
+            </textPath>
+          </text>
+        </svg>
+      </div>
+
+      <h1 class="invite-names invite-names--welcome" aria-label="Chelsea en Warre">
+        <span class="welcome-nameScript">Chelsea</span>
+        <span class="welcome-amp">&</span>
+        <span class="welcome-nameScript">Warre</span>
+      </h1>
+
+      <p *ngIf="loading" class="muted">Laden…</p>
+      <p *ngIf="error" class="error">{{ error }}</p>
+
+      <ng-container *ngIf="!loading && config">
+        <p class="invite-body">
+          Gelieve te antwoorden vóór <span class="invite-strong">{{ deadlineDateNl }}</span>.
+        </p>
+
+        <p class="welcome-weddingDate">zaterdag 6 juni 2026</p>
+
+        <div class="welcome-locations">
+          <a
+            class="welcome-location welcome-location--link"
+            href="https://www.google.com/maps/search/?api=1&query=Hertog%20Jan%20Plein%201%2C%203920%20Lommel"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="welcome-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" focusable="false" role="presentation">
+                <path
+                  fill="currentColor"
+                  d="M12 2c3.87 0 7 3.13 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.87 3.13-7 7-7Zm0 9.5A2.5 2.5 0 1 0 12 6.5a2.5 2.5 0 0 0 0 5Z"
+                />
+              </svg>
+            </span>
+            <div class="welcome-location__body">
+              <div class="welcome-location__label">Jawoord</div>
+              <div class="welcome-location__value">Gemeentehuis Lommel</div>
+            </div>
+            <span class="welcome-location__chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" focusable="false" role="presentation">
+                <path
+                  d="M9 6l6 6-6 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+
+          <a
+            class="welcome-location welcome-location--link"
+            href="https://www.google.com/maps/search/?api=1&query=Grote%20Baan%209%2C%203530%20Houthalen-Helchteren"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="welcome-pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" focusable="false" role="presentation">
+                <path
+                  fill="currentColor"
+                  d="M12 2c3.87 0 7 3.13 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.87 3.13-7 7-7Zm0 9.5A2.5 2.5 0 1 0 12 6.5a2.5 2.5 0 0 0 0 5Z"
+                />
+              </svg>
+            </span>
+            <div class="welcome-location__body">
+              <div class="welcome-location__label">Feestlocatie</div>
+              <div class="welcome-location__value">De Barrier Houthalen-Helchteren</div>
+            </div>
+            <span class="welcome-location__chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" focusable="false" role="presentation">
+                <path
+                  d="M9 6l6 6-6 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <p *ngIf="config.isClosed" class="error--spaced">
+          RSVP gesloten.
+        </p>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="bottom-actions">
+    <div class="bottom-actions__inner">
+      <button class="button cta-button" (click)="continue()" [disabled]="!config || config.isClosed">
+        <span class="cta-button__text">Bevestig hier je aanwezigheid</span>
+        <span class="cta-button__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showDoneModal" class="done-modal" (click)="closeDoneModal()" role="dialog" aria-modal="true" aria-labelledby="done-title">
+    <div class="done-modal__content" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="done-modal__x"
+        (click)="closeDoneModal()"
+        aria-label="Sluiten"
+      >
+        ×
+      </button>
+
+      <h2 id="done-title" class="done-modal__title">Bedankt!</h2>
+      <p class="done-modal__message">
+        We hebben je antwoord ontvangen. Als je vragen hebt, neem dan gerust contact met ons op:
+      </p>
+      <div class="done-modal__contacts">
+        <div class="done-modal__contact">
+          <strong>Warre: </strong> <a href="tel:+32476759879" class="done-modal__phone">+32 476 75 98 79</a>
+        </div>
+        <div class="done-modal__contact">
+          <strong>Chelsea: </strong> <a href="tel:+32483705946" class="done-modal__phone">+32 483 70 59 46</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

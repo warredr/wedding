@@ -1,0 +1,604 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    {
+      "groupId": "g001",
+      "groupLabelFirstNames": "Warre, Chelsea",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g001-warre-dreesen", "fullName": "Warre Dreesen" },
+        { "personId": "g001-chelsea-goelen", "fullName": "Chelsea Goelen" }
+      ]
+    },
+    {
+      "groupId": "g002",
+      "groupLabelFirstNames": "Sonja, Georges, Noa",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g002-sonja-soenen", "fullName": "Sonja Soenen" },
+        { "personId": "g002-georges-van-dael", "fullName": "Georges Van Dael" },
+        { "personId": "g002-noa-bertels", "fullName": "Noa Bertels" }
+      ]
+    },
+    {
+      "groupId": "g003",
+      "groupLabelFirstNames": "Paula, Jos",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g003-paula-maes", "fullName": "Paula Maes" },
+        { "personId": "g003-jos-franssens", "fullName": "Jos Franssens" }
+      ]
+    },
+    {
+      "groupId": "g004",
+      "groupLabelFirstNames": "Sandra",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g004-sandra-berben", "fullName": "Sandra Berben" }
+      ]
+    },
+    {
+      "groupId": "g005",
+      "groupLabelFirstNames": "Lise",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g005-lise-jaeken", "fullName": "Lise Jaeken" }
+      ]
+    },
+    {
+      "groupId": "g006",
+      "groupLabelFirstNames": "Peter, Sofie, Vince, Jitte",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g006-peter-goelen", "fullName": "Peter Goelen" },
+        { "personId": "g006-sofie-verbist", "fullName": "Sofie Verbist" },
+        { "personId": "g006-vince-goelen", "fullName": "Vince Goelen" },
+        { "personId": "g006-jitte-goelen", "fullName": "Jitte Goelen" }
+      ]
+    },
+    {
+      "groupId": "g007",
+      "groupLabelFirstNames": "Carlo, Christiane",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g007-carlo-goelen", "fullName": "Carlo Goelen" },
+        { "personId": "g007-christiane-nijs", "fullName": "Christiane Nijs" }
+      ]
+    },
+    {
+      "groupId": "g008",
+      "groupLabelFirstNames": "Jean Paul, Suus, Thieu, Mia",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g008-jean-paul-bertels", "fullName": "Jean Paul Bertels" },
+        { "personId": "g008-suus", "fullName": "Suus Kanen" },
+        { "personId": "g008-thieu-bertels", "fullName": "Thieu Bertels" },
+        { "personId": "g008-mia-mannaerts", "fullName": "Mia Mannaerts" }
+      ]
+    },
+    {
+      "groupId": "g009",
+      "groupLabelFirstNames": "Viviane, Jos",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g009-viviane-bertels", "fullName": "Viviane Bertels" },
+        { "personId": "g009-jos-verheyen", "fullName": "Jos Verheyen" }
+      ]
+    },
+    {
+      "groupId": "g010",
+      "groupLabelFirstNames": "Sven, Britt, Nand, Lisse",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g010-sven-verheyen", "fullName": "Sven Verheyen" },
+        { "personId": "g010-britt-hebberecht", "fullName": "Britt Hebberecht" },
+        { "personId": "g010-nand-verheyen", "fullName": "Nand Verheyen" },
+        { "personId": "g010-lisse-verheyen", "fullName": "Lisse Verheyen" }
+      ]
+    },
+    {
+      "groupId": "g011",
+      "groupLabelFirstNames": "Elisabeth, Dirk",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g011-elisabeth-coenegrachts", "fullName": "Elisabeth Coenegrachts" },
+        { "personId": "g011-dirk-peeters", "fullName": "Dirk Peeters" }
+      ]
+    },
+    {
+      "groupId": "g012",
+      "groupLabelFirstNames": "Frank, Viviane",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g012-frank-dreesen", "fullName": "Frank Dreesen" },
+        { "personId": "g012-viviane-delait", "fullName": "Viviane Delait" }
+      ]
+    },
+    {
+      "groupId": "g013",
+      "groupLabelFirstNames": "Imme, Jeroen",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g013-imme-dreesen", "fullName": "Imme Dreesen" },
+        { "personId": "g013-jeroen-bossee", "fullName": "Jeroen Bossee" }
+      ]
+    },
+    {
+      "groupId": "g014",
+      "groupLabelFirstNames": "Ingrid",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g014-ingrid-heringklee", "fullName": "Ingrid Heringklee" }
+      ]
+    },
+    {
+      "groupId": "g015",
+      "groupLabelFirstNames": "Carlie",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g015-carlie-stijnen", "fullName": "Carlie Stijnen" }
+      ]
+    },
+    {
+      "groupId": "g016",
+      "groupLabelFirstNames": "Machteld, Sjo, Ties, Milla, Mo",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g016-machteld-coenegrachts", "fullName": "Machteld Coenegrachts" },
+        { "personId": "g016-sjo-van-den-eerenbeemt", "fullName": "Sjo van den Eerenbeemt" },
+        { "personId": "g016-ties-van-den-eerenbeemt", "fullName": "Ties van den Eerenbeemt" },
+        { "personId": "g016-milla-van-den-eerenbeemt", "fullName": "Milla van den Eerenbeemt" },
+        { "personId": "g016-mo-van-den-eerenbeemt", "fullName": "Mo van den Eerenbeemt" }
+      ]
+    },
+    {
+      "groupId": "g017",
+      "groupLabelFirstNames": "Diana",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g017-diana-dreesen", "fullName": "Diana Dreesen" }
+      ]
+    },
+    {
+      "groupId": "g018",
+      "groupLabelFirstNames": "Marie-Paul, Jan",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g018-marie-paul-dreesen", "fullName": "Marie-Paul Dreesen" },
+        { "personId": "g018-jan-huys", "fullName": "Jan Huys" }
+      ]
+    },
+    {
+      "groupId": "g019",
+      "groupLabelFirstNames": "Han",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g019-han-teunkens", "fullName": "Han Teunkens" }
+      ]
+    },
+    {
+      "groupId": "g020",
+      "groupLabelFirstNames": "Lena, Rudi, Richard",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g020-lena-estoque", "fullName": "Lena Estoque" },
+        { "personId": "g020-rudi-dreesen", "fullName": "Rudi Dreesen" },
+        { "personId": "g020-richard-dreesen", "fullName": "Richard Dreesen" }
+      ]
+    },
+    {
+      "groupId": "g021",
+      "groupLabelFirstNames": "Niels",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g021-niels-evans", "fullName": "Niels Evans" }
+      ]
+    },
+    {
+      "groupId": "g022",
+      "groupLabelFirstNames": "Guy, Truud",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g022-guy-evans", "fullName": "Guy Evans" },
+        { "personId": "g022-truud-vanhengel", "fullName": "Truud Vanhengel" }
+      ]
+    },
+    {
+      "groupId": "g023",
+      "groupLabelFirstNames": "Denis, Aisha",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g023-denis-lagana", "fullName": "Denis Lagana" },
+        { "personId": "g023-aisha-wouters", "fullName": "Aisha Wouters" }
+      ]
+    },
+    {
+      "groupId": "g024",
+      "groupLabelFirstNames": "Michael, Laura",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g024-michael-domagala", "fullName": "Michael Domagala" },
+        { "personId": "g024-laura-lenaerts", "fullName": "Laura Lenaerts" }
+      ]
+    },
+    {
+      "groupId": "g025",
+      "groupLabelFirstNames": "Lien, Bram",
+      "invitedTo": ["Dinner", "EveningParty"],
+      "members": [
+        { "personId": "g025-lien-jansen", "fullName": "Lien Jansen" },
+        { "personId": "g025-bram-de-beukelare", "fullName": "Bram De Beukelare" }
+      ]
+    },
+    {
+      "groupId": "g026",
+      "groupLabelFirstNames": "Wendy, Fenne, Siemen",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g026-wendy-cuylaerts", "fullName": "Wendy Cuylaerts" },
+        { "personId": "g026-fenne-geraerds", "fullName": "Fenne Geraerds" },
+        { "personId": "g026-siemen-kuyken", "fullName": "Siemen Kuyken" }
+      ]
+    },
+    {
+      "groupId": "g027",
+      "groupLabelFirstNames": "Marie-Jos\u00e9, Alex",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g027-marie-jose-baerts", "fullName": "Marie-Jos\u00e9 Baerts" },
+        { "personId": "g027-alex-hamal", "fullName": "Alex Hamal" }
+      ]
+    },
+    {
+      "groupId": "g028",
+      "groupLabelFirstNames": "Daniella, Ludo",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g028-daniella-jacobs", "fullName": "Daniella Jacobs" },
+        { "personId": "g028-ludo-verbist", "fullName": "Ludo Verbist" }
+      ]
+    },
+    {
+      "groupId": "g029",
+      "groupLabelFirstNames": "Poppi, Pascale, Kyra, Kendra, Kaylee",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g029-poppi-heringklee", "fullName": "Poppi Heringklee" },
+        { "personId": "g029-pascale-janssen", "fullName": "Pascale Janssen" },
+        { "personId": "g029-kyra-janssen", "fullName": "Kyra Janssen" },
+        { "personId": "g029-kendra-janssen", "fullName": "Kendra Janssen" },
+        { "personId": "g029-kaylee-janssen", "fullName": "Kaylee Janssen" }
+      ]
+    },
+    {
+      "groupId": "g030",
+      "groupLabelFirstNames": "Bo, Robrecht",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g030-bo-teunkens", "fullName": "Bo Teunkens" },
+        { "personId": "g030-robrecht-beuls", "fullName": "Robrecht Beuls" }
+      ]
+    },
+    {
+      "groupId": "g031",
+      "groupLabelFirstNames": "Tine, Johan",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g031-tine-teunkens", "fullName": "Tine Teunkens" },
+        { "personId": "g031-johan-knops", "fullName": "Johan Knops" }
+      ]
+    },
+    {
+      "groupId": "g032",
+      "groupLabelFirstNames": "Ronny",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g032-ronny-soenen", "fullName": "Ronny Soenen" }
+      ]
+    },
+    {
+      "groupId": "g033",
+      "groupLabelFirstNames": "Rudi",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g033-rudi-soenen", "fullName": "Rudi Soenen" }
+      ]
+    },
+    {
+      "groupId": "g034",
+      "groupLabelFirstNames": "Nele",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g034-nele-bellemans", "fullName": "Nele Bellemans" }
+      ]
+    },
+    {
+      "groupId": "g035",
+      "groupLabelFirstNames": "An",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g035-an-bogaerts", "fullName": "An Bogaerts" }
+      ]
+    },
+    {
+      "groupId": "g036",
+      "groupLabelFirstNames": "Wim",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g036-wim-schuermans", "fullName": "Wim Schuermans" }
+      ]
+    },
+    {
+      "groupId": "g037",
+      "groupLabelFirstNames": "Stijn",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g037-stijn-hendrickx", "fullName": "Stijn Hendrickx" }
+      ]
+    },
+    {
+      "groupId": "g038",
+      "groupLabelFirstNames": "Marie",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g038-marie-van-baelen", "fullName": "Marie van Baelen" }
+      ]
+    },
+    {
+      "groupId": "g039",
+      "groupLabelFirstNames": "Louise",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g039-louise-vanheusden", "fullName": "Louise Vanheusden" }
+      ]
+    },
+    {
+      "groupId": "g040",
+      "groupLabelFirstNames": "Joke",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g040-joke-peeters", "fullName": "Joke Peeters" }
+      ]
+    },
+    {
+      "groupId": "g041",
+      "groupLabelFirstNames": "Griet",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g041-griet-swolfs", "fullName": "Griet Swolfs" }
+      ]
+    },
+    {
+      "groupId": "g042",
+      "groupLabelFirstNames": "Hanne",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g042-hanne-biesemans", "fullName": "Hanne Biesemans" }
+      ]
+    },
+    {
+      "groupId": "g043",
+      "groupLabelFirstNames": "Sharon",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g043-sharon-daniels", "fullName": "Sharon Dani\u00ebls" }
+      ]
+    },
+    {
+      "groupId": "g044",
+      "groupLabelFirstNames": "Lara",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g044-lara-gebruers", "fullName": "Lara Gebruers" }
+      ]
+    },
+    {
+      "groupId": "g045",
+      "groupLabelFirstNames": "Lyna",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g045-lyna-goris", "fullName": "Lyna Goris" }
+      ]
+    },
+    {
+      "groupId": "g046",
+      "groupLabelFirstNames": "Thomas",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g046-thomas-joosten", "fullName": "Thomas Joosten" }
+      ]
+    },
+    {
+      "groupId": "g047",
+      "groupLabelFirstNames": "Ronny",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g047-ronny-kempen", "fullName": "Ronny Kempen" }
+      ]
+    },
+    {
+      "groupId": "g048",
+      "groupLabelFirstNames": "Lisa",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g048-lisa-molenberghs", "fullName": "Lisa Molenberghs" }
+      ]
+    },
+    {
+      "groupId": "g049",
+      "groupLabelFirstNames": "Annick",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g049-annick-peeters", "fullName": "Annick Peeters" }
+      ]
+    },
+    {
+      "groupId": "g050",
+      "groupLabelFirstNames": "Shania",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g050-shania-peeters", "fullName": "Shania Peeters" }
+      ]
+    },
+    {
+      "groupId": "g051",
+      "groupLabelFirstNames": "Emma",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g051-emma-thielemans", "fullName": "Emma Thielemans" }
+      ]
+    },
+    {
+      "groupId": "g052",
+      "groupLabelFirstNames": "Ruth",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g052-ruth-vanhamel", "fullName": "Ruth Vanhamel" }
+      ]
+    },
+    {
+      "groupId": "g053",
+      "groupLabelFirstNames": "Steven",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g053-steven-verbiest", "fullName": "Steven Verbiest" }
+      ]
+    },
+    {
+      "groupId": "g054",
+      "groupLabelFirstNames": "Griet",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g054-griet-vos", "fullName": "Griet Vos" }
+      ]
+    },
+    {
+      "groupId": "g055",
+      "groupLabelFirstNames": "Chayenne",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g055-chayenne-willems", "fullName": "Chayenne Willems" }
+      ]
+    },
+    {
+      "groupId": "g056",
+      "groupLabelFirstNames": "Lies",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g056-lies-aerts", "fullName": "Lies Aerts" }
+      ]
+    },
+    {
+      "groupId": "g057",
+      "groupLabelFirstNames": "Ina",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g057-ina-broos", "fullName": "Ina Broos" }
+      ]
+    },
+    {
+      "groupId": "g058",
+      "groupLabelFirstNames": "Elke",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g058-elke-bruers", "fullName": "Elke Bruers" }
+      ]
+    },
+    {
+      "groupId": "g059",
+      "groupLabelFirstNames": "Laura",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g059-laura-elsen", "fullName": "Laura Elsen" }
+      ]
+    },
+    {
+      "groupId": "g060",
+      "groupLabelFirstNames": "Sien",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g060-sien-geerts", "fullName": "Sien Geerts" }
+      ]
+    },
+    {
+      "groupId": "g061",
+      "groupLabelFirstNames": "Annemie",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g061-annemie-gelissen", "fullName": "Annemie Gelissen" }
+      ]
+    },
+    {
+      "groupId": "g062",
+      "groupLabelFirstNames": "Sandra",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g062-sandra-geyskens", "fullName": "Sandra Geyskens" }
+      ]
+    },
+    {
+      "groupId": "g063",
+      "groupLabelFirstNames": "Elien",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g063-elien-hannes", "fullName": "Elien Hannes" }
+      ]
+    },
+    {
+      "groupId": "g064",
+      "groupLabelFirstNames": "Inez",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g064-inez-lievens", "fullName": "Inez Lievens" }
+      ]
+    },
+    {
+      "groupId": "g065",
+      "groupLabelFirstNames": "Hilde",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g065-hilde-nobels", "fullName": "Hilde Nobels" }
+      ]
+    },
+    {
+      "groupId": "g066",
+      "groupLabelFirstNames": "Marleen",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g066-marleen-nuydens", "fullName": "Marleen Nuydens" }
+      ]
+    },
+    {
+      "groupId": "g067",
+      "groupLabelFirstNames": "Emily",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g067-emily-temmerman", "fullName": "Emily Temmerman" }
+      ]
+    },
+    {
+      "groupId": "g068",
+      "groupLabelFirstNames": "Hilde",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g068-hilde-van-eynde", "fullName": "Hilde Van Eynde" }
+      ]
+    },
+    {
+      "groupId": "g069",
+      "groupLabelFirstNames": "Anneli",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g069-anneli-thys", "fullName": "Anneli Thys" }
+      ]
+    },
+    {
+      "groupId": "g070",
+      "groupLabelFirstNames": "Robbe",
+      "invitedTo": ["EveningParty"],
+      "members": [
+        { "personId": "g070-robbe-dams", "fullName": "Robbe Dams" }
+      ]
+    }
+  ]
+}

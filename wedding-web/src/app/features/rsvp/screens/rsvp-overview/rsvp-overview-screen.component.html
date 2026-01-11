@@ -1,0 +1,110 @@
+<div class="page" *ngIf="draft.state() as s">
+	<app-top-bar title="Overzicht" [backTo]="['/rsvp', s.groupId]"></app-top-bar>
+
+	<div class="page__content">
+		<div class="card">
+			<div class="stack">
+				<div class="label">Personen</div>
+				<div *ngFor="let m of s.members" class="card">
+					<div class="item__primary">{{ m.fullName }}</div>
+					<div class="item__secondary">
+						{{ s.personDrafts[m.personId].attending ? labelAttending(s.personDrafts[m.personId].attending!) : '—' }}
+					</div>
+					<div *ngIf="s.personDrafts[m.personId]?.hasAllergies && s.personDrafts[m.personId]?.allergiesText" class="muted">
+						Allergieën: {{ s.personDrafts[m.personId]!.allergiesText }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="s.invitedToEvents.includes('Dinner')" class="card mt12">
+			<div class="stack">
+				<div class="label">Diner</div>
+				<app-segmented-control
+					[options]="attendanceOptions"
+					[value]="s.dinner.attendance"
+					(valueChange)="setDinnerAttendance($event)"
+				></app-segmented-control>
+
+				<div *ngIf="s.dinner.attendance === 'One'" class="field">
+					<div class="label">Wie gaat?</div>
+					<select
+						class="input"
+						aria-label="Diner: wie gaat"
+						[ngModel]="s.dinner.singleAttendeePersonId"
+						(ngModelChange)="draft.setDinnerSingleAttendee($event)"
+					>
+						<option [ngValue]="null">Kies…</option>
+						<option *ngFor="let p of dinnerAttendees()" [ngValue]="p.personId">{{ p.fullName }}</option>
+					</select>
+				</div>
+
+				<div *ngIf="s.dinner.attendance === 'Some'" class="field">
+					<div class="label">Wie gaat?</div>
+					<div class="stack">
+						<label *ngFor="let p of dinnerAttendees()" class="overview-check">
+							<input
+								type="checkbox"
+								[checked]="isDinnerAttending(p.personId)"
+								(change)="draft.setDinnerAttending(p.personId, ($any($event.target).checked))"
+							/>
+							<span>{{ p.fullName }}</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="s.invitedToEvents.includes('EveningParty')" class="card mt12">
+			<div class="stack">
+				<div class="label">Avondfeest</div>
+				<app-segmented-control
+					[options]="attendanceOptions"
+					[value]="s.eveningParty.attendance"
+					(valueChange)="setEveningPartyAttendance($event)"
+				></app-segmented-control>
+
+				<div *ngIf="s.eveningParty.attendance === 'One'" class="field">
+					<div class="label">Wie gaat?</div>
+					<select
+						class="input"
+						aria-label="Avondfeest: wie gaat"
+						[ngModel]="s.eveningParty.singleAttendeePersonId"
+						(ngModelChange)="draft.setEveningPartySingleAttendee($event)"
+					>
+						<option [ngValue]="null">Kies…</option>
+						<option *ngFor="let p of dinnerAttendees()" [ngValue]="p.personId">{{ p.fullName }}</option>
+					</select>
+				</div>
+
+				<div *ngIf="s.eveningParty.attendance === 'Some'" class="field">
+					<div class="label">Wie gaat?</div>
+					<div class="stack">
+						<label *ngFor="let p of dinnerAttendees()" class="overview-check">
+							<input
+								type="checkbox"
+								[checked]="isEveningPartyAttending(p.personId)"
+								(change)="draft.setEveningPartyAttending(p.personId, ($any($event.target).checked))"
+							/>
+							<span>{{ p.fullName }}</span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="validationErrors.length" class="card mt12">
+			<p *ngFor="let e of validationErrors" class="error">{{ e }}</p>
+		</div>
+
+		<div *ngIf="error" class="card mt12">
+			<p class="error">{{ error }}</p>
+		</div>
+	</div>
+
+	<div class="bottom-actions">
+		<div class="bottom-actions__inner">
+			<button type="button" class="button" [disabled]="saving" (click)="confirm()">Bevestigen</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,50 @@
+<div class="page page--invite page--center">
+  <div class="page__content">
+    <div class="card">
+      <h1 class="title">Toegangscode</h1>
+      <p class="muted--spaced">Vul je 6-cijferige code in.</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="field">
+        <div class="otp" role="group" aria-labelledby="codeLabel" (click)="focusInput()">
+          <span id="codeLabel" class="sr-only">6-cijferige toegangscode</span>
+
+          <input
+            #codeInput
+            class="otp__input"
+            autocomplete="one-time-code"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="6"
+            [disabled]="loading"
+            [value]="form.controls.code.value"
+            (input)="onCodeValueChange($any($event.target).value)"
+            (blur)="form.controls.code.markAsTouched()"
+            aria-label="6-cijferige toegangscode"
+          />
+
+          <div class="otp__cells" aria-hidden="true">
+            <div
+              *ngFor="let d of displayDigits; let i = index"
+              class="otp__cell"
+              [class.otp__cell--filled]="!!d"
+            >
+              {{ d }}
+            </div>
+          </div>
+        </div>
+
+        <p *ngIf="form.controls.code.touched && form.controls.code.invalid" class="error">
+          Code moet precies 6 cijfers zijn.
+        </p>
+
+        <p *ngIf="error" class="error error--spaced">{{ error }}</p>
+        <p *ngIf="loading" class="muted">Controleren…</p>
+
+        <button type="submit" class="button cta-button" [disabled]="loading || form.invalid">
+          <span class="cta-button__text">Verder</span>
+          <span class="cta-button__arrow" aria-hidden="true">→</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

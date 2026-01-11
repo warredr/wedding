@@ -1,0 +1,8 @@
+<div class="topbar">
+	<button type="button" class="topbar__back" (click)="back()">
+		<span *ngIf="showBackArrow" class="topbar__backArrow" aria-hidden="true">←</span>
+		<span class="topbar__backText">{{ backLabel }}</span>
+	</button>
+	<div class="topbar__title" [class.topbar__title--hidden]="!title">{{ title }}</div>
+	<div class="topbar__spacer"></div>
+</div>

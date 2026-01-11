@@ -1,0 +1,12 @@
+<div class="wizard-header">
+	<button
+		*ngFor="let id of order"
+		type="button"
+		class="wizard-pill"
+		[class.wizard-pill--active]="id === currentPersonId"
+		(click)="selectPerson.emit(id)"
+	>
+		<span class="wizard-pill__text">{{ personName(id) }}</span>
+		<span *ngIf="completedByPersonId[id]" class="wizard-pill__check">✓</span>
+	</button>
+</div>

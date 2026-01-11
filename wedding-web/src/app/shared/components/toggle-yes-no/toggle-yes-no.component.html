@@ -1,0 +1,25 @@
+<div class="stack">
+	<div *ngIf="label" class="label">{{ label }}</div>
+	<div class="row yn">
+		<button
+			type="button"
+			class="button button--secondary yn__btn"
+			[ngClass]="{ 'yn__btn--active': value === true, 'button--secondary': value !== true }"
+			[attr.aria-pressed]="value === true"
+			(click)="set(true)"
+		>
+			<span class="yn__text">Ja</span>
+			<span *ngIf="value === true" class="yn__check" aria-hidden="true">✓</span>
+		</button>
+		<button
+			type="button"
+			class="button button--secondary yn__btn"
+			[ngClass]="{ 'yn__btn--active': value === false, 'button--secondary': value !== false }"
+			[attr.aria-pressed]="value === false"
+			(click)="set(false)"
+		>
+			<span class="yn__text">Nee</span>
+			<span *ngIf="value === false" class="yn__check" aria-hidden="true">✓</span>
+		</button>
+	</div>
+</div>
