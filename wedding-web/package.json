@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:app": "ng build --configuration production",
+    "deploy": "npx @azure/static-web-apps-cli deploy dist/wedding/browser --env production",
+    "generate:social-preview": "node scripts/generate-social-preview.mjs"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +36,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "sharp": "^0.34.5",
     "typescript": "~5.7.2"
   }
 }

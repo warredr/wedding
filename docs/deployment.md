@@ -25,9 +25,9 @@ From repo root:
 
 - `cd wedding-web`
 - `npm ci`
-- `npm run build`
+- `npm run build:app`
 
-Build output is written to `wedding-web/dist/wedding`.
+Build output is written to `wedding-web/dist/wedding/browser`.
 
 ### 3) Deploy with SWA CLI
 
@@ -37,7 +37,11 @@ Install the CLI:
 
 Deploy:
 
-- `swa deploy wedding-web/dist/wedding --deployment-token "$SWA_DEPLOYMENT_TOKEN"`
+- `npm run deploy`
+
+Or, without the package script:
+
+- `npx @azure/static-web-apps-cli deploy wedding-web/dist/wedding/browser --env production --deployment-token "$SWA_DEPLOYMENT_TOKEN"`
 
 Notes:
 - The token is sensitive; do not commit it.
