@@ -42,7 +42,7 @@ public sealed class SheetExportTimer
         {
             if (item.AttemptCount >= 50)
             {
-                _logger.LogWarning("Sheets export skipped for group {GroupId} due to high attempt count.", item.GroupId);
+                _logger.LogWarning("Export skipped for group {GroupId} due to high attempt count.", item.GroupId);
                 continue;
             }
 

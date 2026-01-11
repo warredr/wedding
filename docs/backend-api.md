@@ -6,9 +6,9 @@ Notes:
 - Azure Functions defaults to the `/api` prefix unless overridden.
 - All endpoints return JSON.
 - All non-session endpoints require a valid session cookie.
-- CORS allows credentialed requests from:
-  - `https://red-glacier-028bc0303.4.azurestaticapps.net`
-  - `http://localhost:4200`
+- CORS must allow credentialed requests from:
+  - your Azure Static Web Apps origin (production)
+  - `http://localhost:4200` (local dev)
 
 ## Session
 
@@ -24,7 +24,7 @@ Notes:
 ## Config
 
 - `GET /api/config`
-  - Response: `{ "deadlineDate": "2026-05-01", "isClosed": false }`
+  - Response: `{ "deadlineDate": "2026-05-01", "isClosed": false, "sessionExpiresAtUtc": "..." }`
 
 ## Search
 

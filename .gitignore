@@ -1,0 +1,25 @@
+# Repo-wide ignores
+
+# Local Azurite state (repo root)
+.azurite/
+
+# macOS
+.DS_Store
+
+# VS Code workspace state
+.vscode/
+
+# .NET build outputs (in case subproject ignores miss)
+**/[Bb]in/
+**/[Oo]bj/
+
+# Azure Functions local settings (never commit secrets)
+**/local.settings.json
+
+# Node/Angular
+**/node_modules/
+**/dist/
+**/.angular/cache/
+
+# Coverage
+**/coverage/

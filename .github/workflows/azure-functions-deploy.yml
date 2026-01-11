@@ -1,0 +1,44 @@
+name: Deploy Azure Functions (wedding-api)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'wedding-api/**'
+      - 'wedding.sln'
+      - '.github/workflows/azure-functions-deploy.yml'
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'wedding-api/src'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore wedding.sln
+
+      - name: Build
+        run: dotnet build wedding.sln -c Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/wedding-api.csproj -c Release -o publish
+
+      - name: Deploy
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+          package: publish
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

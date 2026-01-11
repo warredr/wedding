@@ -15,11 +15,17 @@ Update `wedding-api/src/local.settings.json` (do not commit secrets):
 - `AzureWebJobsStorage`: `UseDevelopmentStorage=true`
 - `Rsvp__QrAccessKey`: GUID
 - `Rsvp__SixDigitAccessCode`: 6 digits
-- `Rsvp__SessionTtlMinutes`: e.g. 120
+- `Rsvp__SessionTtlMinutes`: e.g. 15
 - `Rsvp__SessionSigningKey`: random string
 - `Rsvp__AdminKey`: GUID
 - `Rsvp__DeadlineDate`: `2026-05-01`
 - `Invites__JsonPath`: path to invites json (optional)
+
+### Export table
+
+The export timer writes per-person rows to Azure Table Storage (default table name `RsvpExportRows`).
+
+- `ExportTable__TableName`: override table name (optional)
 
 ### CORS (local)
 
@@ -48,6 +54,4 @@ Run tests:
 ## Notes
 
 - Frontend calls the backend with cookies; ensure CORS allows credentials.
-- CORS is configured in the Functions app to allow:
-  - `https://red-glacier-028bc0303.4.azurestaticapps.net`
-  - `http://localhost:4200`
+- In production, configure CORS to allow your Azure Static Web Apps origin.

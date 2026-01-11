@@ -9,7 +9,14 @@ This repo contains the wedding RSVP app:
 
 - Docs: [docs/README.md](docs/README.md)
 - Backend project: [wedding-api/src](wedding-api/src)
-- Frontend project: [wedding-web/wedding](wedding-web/wedding)
+- Frontend project: [wedding-web](wedding-web)
+
+## Deployment
+
+- Frontend: manual deploy to Azure Static Web Apps
+- Backend: deploy to Azure Functions via GitHub Actions
+
+See: [docs/deployment.md](docs/deployment.md)
 
 ## Backend local development
 
