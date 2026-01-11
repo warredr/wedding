@@ -6,7 +6,8 @@ public static class Cors
 {
     private static readonly HashSet<string> AllowedOrigins = new(StringComparer.Ordinal)
     {
-        "https://red-glacier-028bc0303.4.azurestaticapps.net",
+        "https://purple-pebble-0eed3e703.6.azurestaticapps.net",
+        "https://6juni2026.be",
         "http://localhost:4200",
         "http://127.0.0.1:4200",
     };
