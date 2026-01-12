@@ -125,7 +125,6 @@ public sealed class AccessGate
         Cors.TryApply(req, res);
 
         // Cookies:
-        // - Local dev (http://localhost:4200 -> http://localhost:7071): same-site; Lax works.
         // - Prod (Static Web App -> Functions host): cross-site; requires SameSite=None and Secure.
         var isHttps = string.Equals(req.Url.Scheme, "https", StringComparison.OrdinalIgnoreCase);
 

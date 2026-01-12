@@ -1,4 +1,3 @@
 export const environment = {
-  // Local development: Functions host is typically http://localhost:7071 with default /api prefix.
-  apiBaseUrl: 'http://localhost:7071/api',
+  apiBaseUrl: 'https://wedding-api-b9crfkftfnfsgpay.westeurope-01.azurewebsites.net/api',
 };
