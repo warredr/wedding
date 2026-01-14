@@ -18,6 +18,11 @@ public static class HttpResults
         var res = req.CreateResponse(status);
         res.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
+        // Security & caching: these responses can contain auth/session-sensitive data.
+        res.Headers.Add("Cache-Control", "no-store");
+        res.Headers.Add("Pragma", "no-cache");
+        res.Headers.Add("X-Content-Type-Options", "nosniff");
+
         // CORS headers must be applied before writing the body.
         Cors.TryApply(req, res);
 

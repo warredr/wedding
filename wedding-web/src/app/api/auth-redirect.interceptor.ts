@@ -17,12 +17,15 @@ export const authRedirectInterceptor: HttpInterceptorFn = (req, next) => {
   return next(request).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 403)) {
-        sessionExpiry.expireNow();
+        // If this request is explicitly marked as a "check" call, do not mutate session state.
+        // (e.g. invalid QR keys should not wipe an existing valid session.)
+        if (!skipRedirect) {
+          sessionExpiry.expireNow();
 
-        // Avoid infinite loops if we're already on /welcome.
-        // Also skip redirect if specifically requested (e.g. for verification checks).
-        if (!skipRedirect && router.url !== '/') {
-          void router.navigateByUrl('/');
+          // Avoid infinite loops if we're already on /welcome.
+          if (router.url !== '/') {
+            void router.navigateByUrl('/');
+          }
         }
       }
 

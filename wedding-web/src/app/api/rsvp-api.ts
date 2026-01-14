@@ -23,12 +23,17 @@ export class RsvpApi {
     return this.api.get<ConfigDto>('/config', undefined, headers);
   }
 
-  startSession(code: string): Observable<{ ok: boolean; expiresAtUtc: string } | { ok: true }> {
+  startSession(code: string): Observable<{ ok: true; expiresAtUtc: string; token: string }> {
     return this.api.post('/session/start', { code });
   }
 
-  startSessionFromQr(k: string): Observable<{ ok: boolean; expiresAtUtc: string } | { ok: true }> {
-    return this.api.get('/session/from-qr', { k });
+  startSessionFromQr(k: string): Observable<{ ok: true; expiresAtUtc: string; token: string }> {
+    return this.api.get('/session/from-qr', { k }, { 'X-Skip-Auth-Redirect': 'true' });
+  }
+
+  verifySession(): Observable<{ ok: true; expiresAtUtc: string }> {
+    // Mark as a "check" call so we can handle the result without wiping state.
+    return this.api.get('/session/verify', undefined, { 'X-Skip-Auth-Redirect': 'true' });
   }
 
   search(q: string): Observable<SearchResultDto[]> {

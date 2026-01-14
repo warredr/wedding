@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, finalize, of } from 'rxjs';
 import { RsvpApi } from '../../../../api/rsvp-api';
+import { ApiClient } from '../../../../api/api-client';
 import { ConfigDto } from '../../../../api/types';
 import { SessionExpiryService } from '../../../../shared/services/session-expiry.service';
 
@@ -83,17 +84,26 @@ export class WelcomeScreenComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const k = this.route.snapshot.queryParamMap.get('k');
     if (k) {
-      this.api.startSessionFromQr(k).subscribe((res) => {
-        if (res) {
-          const anyRes = res as any;
-          if (typeof anyRes.expiresAtUtc === 'string') {
-            this.sessionExpiry.setExpiresAtUtc(anyRes.expiresAtUtc);
+      this.api
+        .startSessionFromQr(k)
+        .pipe(catchError(() => of(null)))
+        .subscribe((res) => {
+          if (res?.expiresAtUtc) {
+            this.sessionExpiry.setExpiresAtUtc(res.expiresAtUtc);
           }
-          this.isAuthenticated = true;
-        }
-        // Load config after auth attempt
-        this.loadConfig();
-      });
+          if (res?.token) {
+            ApiClient.setSessionToken(res.token);
+          }
+
+          if (res) {
+            // Mark authenticated immediately so the CTA doesn't briefly require a PIN
+            // while the config verification call is still in flight.
+            this.isAuthenticated = true;
+          }
+
+          // Load config after auth attempt (successful or not)
+          this.loadConfig();
+        });
     } else {
       this.loadConfig();
     }
@@ -109,11 +119,8 @@ export class WelcomeScreenComponent implements OnInit, AfterViewInit, OnDestroy 
         this.config = cfg;
         this.loading = false;
 
-        if (this.config && !this.config.isClosed) {
-          this.isAuthenticated = true;
-        } else if (cfg) {
-          this.isAuthenticated = true;
-        }
+        // If we can load config, we have a valid session.
+        this.isAuthenticated = cfg !== null;
 
         this.cdr.markForCheck();
       });
@@ -220,9 +227,11 @@ export class WelcomeScreenComponent implements OnInit, AfterViewInit, OnDestroy 
           this.validationState = 'valid';
           this.unlockSuccess = true;
 
-          const anyRes = res as any;
-          if (typeof anyRes.expiresAtUtc === 'string') {
-            this.sessionExpiry.setExpiresAtUtc(anyRes.expiresAtUtc);
+          if (res.expiresAtUtc) {
+            this.sessionExpiry.setExpiresAtUtc(res.expiresAtUtc);
+          }
+          if (res.token) {
+            ApiClient.setSessionToken(res.token);
           }
 
           this.isAuthenticated = true;

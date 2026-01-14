@@ -96,6 +96,42 @@ public sealed class RsvpFunctionsApiTests
 
         var body = ((TestHttpResponseData)res).ReadBodyAsString();
         Assert.Contains("\"ok\":true", body);
+        Assert.Contains("\"token\":", body);
+    }
+
+    [Fact]
+    public void SessionVerify_WithoutSession_ReturnsForbidden()
+    {
+        var sut = CreateSut(CreateOptions());
+
+        var ctx = new TestFunctionContext();
+        var req = new TestHttpRequestData(ctx, new Uri("http://localhost/api/session/verify"), "GET");
+
+        var res = sut.SessionVerify(req);
+        Assert.Equal(HttpStatusCode.Forbidden, res.StatusCode);
+
+        var body = ((TestHttpResponseData)res).ReadBodyAsString();
+        Assert.Contains("unauthorized", body);
+    }
+
+    [Fact]
+    public void SessionVerify_WithHeaderToken_ReturnsOk()
+    {
+        var options = CreateOptions();
+        var sut = CreateSut(options);
+
+        var ctx = new TestFunctionContext();
+        var req = new TestHttpRequestData(ctx, new Uri("http://localhost/api/session/verify"), "GET");
+
+        var token = SessionTokens.CreateToken(DateTimeOffset.UtcNow.AddMinutes(10), options.SessionSigningKey);
+        req.Headers.Add(AccessGate.SessionHeaderName, token);
+
+        var res = sut.SessionVerify(req);
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var body = ((TestHttpResponseData)res).ReadBodyAsString();
+        Assert.Contains("\"ok\":true", body);
+        Assert.Contains("expiresAtUtc", body);
     }
 
     [Fact]

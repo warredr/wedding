@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.Extensions.Options;
 using WeddingApi.Application;
+using WeddingApi.Application.Session;
 using WeddingApi.Functions;
 
 namespace wedding_api.Tests;
@@ -84,5 +85,39 @@ public sealed class AccessGateTests
         var cookie = values.First();
         Assert.Contains("SameSite=Lax", cookie);
         Assert.DoesNotContain("Secure", cookie);
+    }
+
+    [Fact]
+    public void HasValidSession_HeaderToken_IsAccepted()
+    {
+        var sut = CreateSut();
+        var ctx = new TestFunctionContext();
+        var req = new TestHttpRequestData(ctx, new Uri("https://localhost/api/search"), "GET");
+
+        var expires = DateTimeOffset.UtcNow.AddMinutes(10);
+        var token = SessionTokens.CreateToken(expires, "test-signing-key-123");
+        req.Headers.Add(AccessGate.SessionHeaderName, token);
+
+        Assert.True(sut.HasValidSession(req));
+        Assert.True(sut.TryGetSessionExpiresAtUtc(req, out var expiresAtUtc));
+        Assert.True(expiresAtUtc > DateTimeOffset.UtcNow);
+    }
+
+    [Fact]
+    public void HasValidSession_InvalidHeaderToken_DoesNotOverrideValidCookie()
+    {
+        var sut = CreateSut();
+        var ctx = new TestFunctionContext();
+        var req = new TestHttpRequestData(ctx, new Uri("https://localhost/api/search"), "GET");
+
+        var expires = DateTimeOffset.UtcNow.AddMinutes(10);
+        var validToken = SessionTokens.CreateToken(expires, "test-signing-key-123");
+
+        // Cookie header contains a valid session.
+        req.Headers.Add("Cookie", $"{AccessGate.SessionCookieName}={validToken}");
+        // Header contains garbage.
+        req.Headers.Add(AccessGate.SessionHeaderName, "not-a-valid-token");
+
+        Assert.True(sut.HasValidSession(req));
     }
 }

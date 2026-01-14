@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { map, catchError, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RsvpApi } from '../../api/rsvp-api';
 
 export const deadlineGuard: CanActivateFn = (route, state) => {
@@ -21,13 +22,13 @@ export const deadlineGuard: CanActivateFn = (route, state) => {
             }
             return true;
         }),
-        catchError(() => {
-            // If config fails, we might want to fail safe or allow. 
-            // If we assume failure means "offline" or "error", maybe allow? 
-            // Or block?
-            // Let's assume safely open, or handle error. 
-            // But typically we should just return true or let the error bubble?
-            // Safe default: return true, let other guards/interceptors handle auth.
+        catchError((err: unknown) => {
+            // These routes are protected; if we are unauthorized, send the user back to the welcome screen.
+            if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 403)) {
+                return of(router.createUrlTree(['/']));
+            }
+
+            // Other failures (temporary network issues) should not hard-block navigation.
             return of(true);
         })
     );

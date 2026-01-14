@@ -15,10 +15,15 @@ Notes:
 - `POST /api/session/start`
   - Body: `{ "code": "662026" }`
   - Result: `200` + sets HttpOnly session cookie
-  - Response: `{ "ok": true, "expiresAtUtc": "..." }`
+  - Response: `{ "ok": true, "expiresAtUtc": "...", "token": "..." }`
+    - `token` is a fallback for browsers that block third-party cookies (notably Safari iOS)
 
 - `GET /api/session/from-qr?k=...`
   - Result: `200` + sets HttpOnly session cookie
+  - Response: `{ "ok": true, "expiresAtUtc": "...", "token": "..." }`
+
+- `GET /api/session/verify`
+  - Result: `200` if authenticated
   - Response: `{ "ok": true, "expiresAtUtc": "..." }`
 
 ## Config

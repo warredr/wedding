@@ -53,6 +53,25 @@ public sealed class RsvpFunctions
         return _access.IssueSessionCookie(req);
     }
 
+    [Function("session_verify")]
+    public HttpResponseData SessionVerify(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "options", Route = "session/verify")] HttpRequestData req)
+    {
+        var authError = _access.RequireSession(req);
+        if (authError is not null)
+        {
+            return authError;
+        }
+
+        _access.TryGetSessionExpiresAtUtc(req, out var expiresAtUtc);
+
+        return HttpResults.Json(req, HttpStatusCode.OK, new
+        {
+            ok = true,
+            expiresAtUtc,
+        });
+    }
+
     private sealed record StartSessionRequest(string? Code);
 
     [Function("session_start")]

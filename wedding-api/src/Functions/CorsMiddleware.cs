@@ -25,9 +25,12 @@ public sealed class CorsMiddleware : IFunctionsWorkerMiddleware
                 res.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 
                 var requestedHeaders = Cors.TryGetHeader(req, "Access-Control-Request-Headers");
-                res.Headers.Add(
-                    "Access-Control-Allow-Headers",
-                    string.IsNullOrWhiteSpace(requestedHeaders) ? "Content-Type" : requestedHeaders);
+                var baseline = "Content-Type, Authorization, X-Rsvp-Session";
+                var allowHeaders = string.IsNullOrWhiteSpace(requestedHeaders)
+                    ? baseline
+                    : $"{baseline}, {requestedHeaders}";
+
+                res.Headers.Add("Access-Control-Allow-Headers", allowHeaders);
             }
 
             context.GetInvocationResult().Value = res;

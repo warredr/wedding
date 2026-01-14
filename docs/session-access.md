@@ -14,6 +14,12 @@ The app requires an authenticated session.
 - Backend issues an HttpOnly cookie containing a signed, short-lived token (HMAC).
 - This avoids server-side session storage.
 
+### Safari iOS note (third-party cookie blocking)
+
+When the frontend is hosted on a different domain than the API (e.g. `www.6juni2026.be` calling an `azurewebsites.net` API), Safari iOS may block third-party cookies for XHR/fetch.
+
+To keep authentication reliable, the session start endpoints also return the signed token, and the frontend sends it on subsequent requests via the `X-Rsvp-Session` header.
+
 ## Security notes
 
 - Cookie should be:

@@ -14,6 +14,7 @@ namespace WeddingApi.Functions;
 public sealed class AccessGate
 {
     public const string SessionCookieName = "rsvp_session";
+    public const string SessionHeaderName = "X-Rsvp-Session";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -44,12 +45,13 @@ public sealed class AccessGate
     {
         expiresAtUtc = DateTimeOffset.MinValue;
 
-        if (!TryGetSessionToken(req, out var rawToken))
+        if (TryGetValidSessionToken(req, out var token))
         {
-            return false;
+            // Token is already validated; we just need to re-parse expiry.
+            return SessionTokens.TryValidateToken(token, _options.SessionSigningKey, DateTimeOffset.UtcNow, out expiresAtUtc);
         }
 
-        return SessionTokens.TryValidateToken(rawToken, _options.SessionSigningKey, DateTimeOffset.UtcNow, out expiresAtUtc);
+        return false;
     }
 
     public bool TryGetDeviceId(HttpRequestData req, out string deviceId)
@@ -72,21 +74,34 @@ public sealed class AccessGate
     {
         token = string.Empty;
 
-        if (!TryGetSessionToken(req, out var rawToken))
+        // Prefer cookie if present and valid.
+        if (TryGetSessionTokenFromCookie(req, out var rawCookieToken) &&
+            SessionTokens.TryValidateToken(rawCookieToken, _options.SessionSigningKey, DateTimeOffset.UtcNow, out _))
         {
-            return false;
+            token = rawCookieToken;
+            return true;
         }
 
-        if (!SessionTokens.TryValidateToken(rawToken, _options.SessionSigningKey, DateTimeOffset.UtcNow, out _))
+        // Safari iOS can block third-party cookies in XHR/fetch. Support a header-based token as a fallback.
+        if (TryGetSessionTokenFromHeader(req, out var rawHeaderToken) &&
+            SessionTokens.TryValidateToken(rawHeaderToken, _options.SessionSigningKey, DateTimeOffset.UtcNow, out _))
         {
-            return false;
+            token = rawHeaderToken;
+            return true;
         }
 
-        token = rawToken;
-        return true;
+        // Optional: Authorization: Bearer <token>
+        if (TryGetSessionTokenFromAuthorization(req, out var rawBearerToken) &&
+            SessionTokens.TryValidateToken(rawBearerToken, _options.SessionSigningKey, DateTimeOffset.UtcNow, out _))
+        {
+            token = rawBearerToken;
+            return true;
+        }
+
+        return false;
     }
 
-    private static bool TryGetSessionToken(HttpRequestData req, out string rawToken)
+    private static bool TryGetSessionTokenFromCookie(HttpRequestData req, out string rawToken)
     {
         rawToken = string.Empty;
 
@@ -101,6 +116,56 @@ public sealed class AccessGate
             return false;
         }
 
+        return true;
+    }
+
+    private static bool TryGetSessionTokenFromHeader(HttpRequestData req, out string rawToken)
+    {
+        rawToken = string.Empty;
+
+        if (!req.Headers.TryGetValues(SessionHeaderName, out var values))
+        {
+            return false;
+        }
+
+        var headerValue = values.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(headerValue))
+        {
+            return false;
+        }
+
+        rawToken = headerValue.Trim();
+        return true;
+    }
+
+    private static bool TryGetSessionTokenFromAuthorization(HttpRequestData req, out string rawToken)
+    {
+        rawToken = string.Empty;
+
+        if (!req.Headers.TryGetValues("Authorization", out var values))
+        {
+            return false;
+        }
+
+        var auth = values.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(auth))
+        {
+            return false;
+        }
+
+        const string prefix = "Bearer ";
+        if (!auth.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var token = auth[prefix.Length..].Trim();
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return false;
+        }
+
+        rawToken = token;
         return true;
     }
 
@@ -126,21 +191,27 @@ public sealed class AccessGate
 
         // Cookies:
         // - Prod (Static Web App -> Functions host): cross-site; requires SameSite=None and Secure.
-        // Check for X-Forwarded-Proto header (standard for proxies/Azure Config).
+        // Note: behind some proxies/App Service, req.Url.Scheme can show "http" even when the client is on HTTPS.
         var forwardedProto = req.Headers.TryGetValues("X-Forwarded-Proto", out var protoValues)
-             ? protoValues.FirstOrDefault()
-             : null;
+            ? protoValues.FirstOrDefault()
+            : null;
+        var hasArrSsl = req.Headers.TryGetValues("X-ARR-SSL", out _);
 
-        var isHttps = string.Equals(req.Url.Scheme, "https", StringComparison.OrdinalIgnoreCase) ||
-                      string.Equals(forwardedProto, "https", StringComparison.OrdinalIgnoreCase);
+        var isHttps = string.Equals(req.Url.Scheme, "https", StringComparison.OrdinalIgnoreCase)
+                     || string.Equals(forwardedProto, "https", StringComparison.OrdinalIgnoreCase)
+                     || hasArrSsl;
 
         var sameSite = isHttps ? "None" : "Lax";
         var secure = isHttps ? "; Secure" : string.Empty;
+        var maxAgeSeconds = Math.Max(0, (int)Math.Ceiling(TimeSpan.FromMinutes(_options.SessionTtlMinutes).TotalSeconds));
+        var maxAgeAttr = $"; Max-Age={maxAgeSeconds}";
         var expiresAttr = $"; Expires={expires.UtcDateTime:R}";
-        var cookie = $"{SessionCookieName}={token}; Path=/; HttpOnly; SameSite={sameSite}{secure}{expiresAttr}";
+        var cookie = $"{SessionCookieName}={token}; Path=/; HttpOnly; SameSite={sameSite}{secure}{maxAgeAttr}{expiresAttr}";
         res.Headers.Add("Set-Cookie", cookie);
 
-        res.WriteStringAsync(JsonSerializer.Serialize(new { ok = true, expiresAtUtc = expires }, JsonOptions))
+        // Include the token as an optional fallback for browsers/environments where third-party cookies are blocked (e.g. Safari iOS).
+        // The cookie remains the primary mechanism.
+        res.WriteStringAsync(JsonSerializer.Serialize(new { ok = true, expiresAtUtc = expires, token }, JsonOptions))
             .GetAwaiter()
             .GetResult();
         return res;
