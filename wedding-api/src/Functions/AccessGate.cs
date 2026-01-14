@@ -126,7 +126,13 @@ public sealed class AccessGate
 
         // Cookies:
         // - Prod (Static Web App -> Functions host): cross-site; requires SameSite=None and Secure.
-        var isHttps = string.Equals(req.Url.Scheme, "https", StringComparison.OrdinalIgnoreCase);
+        // Check for X-Forwarded-Proto header (standard for proxies/Azure Config).
+        var forwardedProto = req.Headers.TryGetValues("X-Forwarded-Proto", out var protoValues)
+             ? protoValues.FirstOrDefault()
+             : null;
+
+        var isHttps = string.Equals(req.Url.Scheme, "https", StringComparison.OrdinalIgnoreCase) ||
+                      string.Equals(forwardedProto, "https", StringComparison.OrdinalIgnoreCase);
 
         var sameSite = isHttps ? "None" : "Lax";
         var secure = isHttps ? "; Secure" : string.Empty;
