@@ -18,7 +18,7 @@ export class BootComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const k = this.route.snapshot.queryParamMap.get('k') ?? this.route.snapshot.paramMap.get('k');
+    const k = this.route.snapshot.queryParamMap.get('k');
 
     if (k) {
       this.api
@@ -30,8 +30,12 @@ export class BootComponent implements OnInit {
           })
         )
         .subscribe((res) => {
+          if (!res) {
+            return;
+          }
+
           const anyRes = res as any;
-          if (anyRes && typeof anyRes.expiresAtUtc === 'string') {
+          if (typeof anyRes.expiresAtUtc === 'string') {
             this.sessionExpiry.setExpiresAtUtc(anyRes.expiresAtUtc);
           }
           void this.router.navigateByUrl('/welcome');

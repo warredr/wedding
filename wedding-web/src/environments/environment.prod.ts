@@ -1,4 +1,3 @@
 export const environment = {
-  // Production: when hosted behind Azure Static Web Apps, the API is commonly mounted at /api.
-  apiBaseUrl: '/api',
+  apiBaseUrl: 'https://wedding-api-b9crfkftfnfsgpay.westeurope-01.azurewebsites.net/api',
 };
