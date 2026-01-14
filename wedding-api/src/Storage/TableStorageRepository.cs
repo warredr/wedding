@@ -37,6 +37,8 @@ public interface IRsvpStorage
         IReadOnlyList<RsvpPersonEntity> personEntities,
         CancellationToken cancellationToken);
     Task ResetGroupAsync(string groupId, CancellationToken cancellationToken);
+    Task<IReadOnlyDictionary<string, RsvpPersonEntity>> GetAllResponsesAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyDictionary<string, GroupState>> GetAllGroupStatesAsync(CancellationToken cancellationToken);
 }
 
 public sealed class TableStorageRepository : IRsvpStorage
@@ -271,6 +273,37 @@ public sealed class TableStorageRepository : IRsvpStorage
         await foreach (var entity in ResponsesTable.QueryAsync<RsvpPersonEntity>(e => e.PartitionKey == groupId, cancellationToken: cancellationToken))
         {
             result[entity.RowKey] = entity;
+        }
+
+    public async Task<IReadOnlyDictionary<string, RsvpPersonEntity>> GetAllResponsesAsync(CancellationToken cancellationToken)
+    {
+        await ResponsesTable.CreateIfNotExistsAsync(cancellationToken);
+
+        var result = new Dictionary<string, RsvpPersonEntity>(StringComparer.Ordinal);
+        
+        // Query empty filter returns all entities
+        await foreach (var entity in ResponsesTable.QueryAsync<RsvpPersonEntity>(filter: string.Empty, cancellationToken: cancellationToken))
+        {
+            // If the same personId appears multiple times (should verify logic), last one wins? 
+            // PersonIDs should be unique globally.
+            result[entity.RowKey] = entity;
+        }
+
+        return result;
+    }
+
+    public async Task<IReadOnlyDictionary<string, GroupState>> GetAllGroupStatesAsync(CancellationToken cancellationToken)
+    {
+        await GroupsTable.CreateIfNotExistsAsync(cancellationToken);
+
+        var result = new Dictionary<string, GroupState>(StringComparer.Ordinal);
+        
+        await foreach (var entity in GroupsTable.QueryAsync<RsvpGroupEntity>(filter: string.Empty, cancellationToken: cancellationToken))
+        {
+            if (entity.RowKey == "meta")
+            {
+                result[entity.PartitionKey] = ToState(entity);
+            }
         }
 
         return result;

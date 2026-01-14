@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { authRedirectInterceptor } from './auth-redirect.interceptor';
 
 describe('authRedirectInterceptor', () => {
-  it('navigates to /locked on 401', () => {
+  it('navigates to / on 401', () => {
     const routerSpy = {
       url: '/search',
       navigateByUrl: jasmine.createSpy('navigateByUrl'),
@@ -23,18 +23,18 @@ describe('authRedirectInterceptor', () => {
     const http = TestBed.inject(HttpClient);
     const httpMock = TestBed.inject(HttpTestingController);
 
-    http.get('/api/config').subscribe({ error: () => {} });
+    http.get('/api/config').subscribe({ error: () => { } });
 
     const req = httpMock.expectOne('/api/config');
     req.flush({ message: 'unauthorized' }, { status: 401, statusText: 'Unauthorized' });
 
-    expect((routerSpy as any).navigateByUrl).toHaveBeenCalledWith('/locked');
+    expect((routerSpy as any).navigateByUrl).toHaveBeenCalledWith('/');
     httpMock.verify();
   });
 
-  it('does not re-navigate when already on /locked', () => {
+  it('does not re-navigate when already on /', () => {
     const routerSpy = {
-      url: '/locked',
+      url: '/',
       navigateByUrl: jasmine.createSpy('navigateByUrl'),
     } as unknown as Router;
 
@@ -49,7 +49,7 @@ describe('authRedirectInterceptor', () => {
     const http = TestBed.inject(HttpClient);
     const httpMock = TestBed.inject(HttpTestingController);
 
-    http.get('/api/config').subscribe({ error: () => {} });
+    http.get('/api/config').subscribe({ error: () => { } });
 
     const req = httpMock.expectOne('/api/config');
     req.flush({ message: 'unauthorized' }, { status: 401, statusText: 'Unauthorized' });

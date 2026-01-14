@@ -60,6 +60,11 @@ body {
 	transform: translateX(28px);
 }
 
+.no-scroll {
+  overflow: hidden;
+  touch-action: none;
+}
+
 .page--entering-left {
 	opacity: 0;
 	transform: translateX(-28px);

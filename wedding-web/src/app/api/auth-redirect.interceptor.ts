@@ -19,10 +19,10 @@ export const authRedirectInterceptor: HttpInterceptorFn = (req, next) => {
       if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 403)) {
         sessionExpiry.expireNow();
 
-        // Avoid infinite loops if we're already on /locked.
+        // Avoid infinite loops if we're already on /welcome.
         // Also skip redirect if specifically requested (e.g. for verification checks).
-        if (!skipRedirect && router.url !== '/locked') {
-          void router.navigateByUrl('/locked');
+        if (!skipRedirect && router.url !== '/') {
+          void router.navigateByUrl('/');
         }
       }
 

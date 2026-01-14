@@ -58,8 +58,8 @@ export class SessionExpiryService {
       // ignore
     }
 
-    if (this.router.url !== '/locked') {
-      void this.router.navigateByUrl('/locked');
+    if (this.router.url !== '/') {
+      void this.router.navigateByUrl('/');
     }
   }
 

@@ -67,6 +67,12 @@ public sealed class JsonInviteRepository : IInviteRepository
         return Task.FromResult<GroupDefinition?>(group);
     }
 
+    public Task<IReadOnlyList<GroupDefinition>> GetAllGroupsAsync(CancellationToken cancellationToken)
+    {
+        EnsureLoaded();
+        return Task.FromResult<IReadOnlyList<GroupDefinition>>(_groupsById!.Values.ToList());
+    }
+
     private void EnsureLoaded()
     {
         var now = DateTimeOffset.UtcNow;

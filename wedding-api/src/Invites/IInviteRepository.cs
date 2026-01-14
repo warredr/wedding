@@ -13,4 +13,5 @@ public interface IInviteRepository
 {
     Task<IReadOnlyList<PersonSearchHit>> SearchPeopleAsync(string query, CancellationToken cancellationToken);
     Task<GroupDefinition?> GetGroupAsync(string groupId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<GroupDefinition>> GetAllGroupsAsync(CancellationToken cancellationToken);
 }
