@@ -140,7 +140,7 @@
 
       <h2 id="done-title" class="done-modal__title">Bedankt!</h2>
       <p class="done-modal__message">
-        We hebben je antwoord ontvangen. Als je vragen hebt, neem dan gerust contact met ons op:
+        Bedankt! We hebben het genoteerd. Laat het gerust weten als je nog vragen hebt:
       </p>
       <div class="done-modal__contacts">
         <div class="done-modal__contact">
@@ -175,7 +175,7 @@
           class="otp-hidden-input"
           formControlName="code"
           [attr.maxlength]="6"
-          (ngModelChange)="onCodeValueChange($event)"
+          (input)="onCodeValueChange($any($event.target).value)"
           (blur)="isFocused = false"
         />
         

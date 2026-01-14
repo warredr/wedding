@@ -177,7 +177,12 @@ export class WelcomeScreenComponent implements OnInit, AfterViewInit, OnDestroy 
     this.unlockError = null;
     this.validationState = 'idle';
 
-    this.form.controls.code.setValue(digits);
+    // Only update control if the value is different (e.g. sanitized)
+    if (this.form.controls.code.value !== digits) {
+      this.form.controls.code.setValue(digits, { emitEvent: false }); // Prevent loop if subscribed
+    }
+
+    // Always mark touched
     this.form.controls.code.markAsTouched();
 
     const el = this.codeInput?.nativeElement;
