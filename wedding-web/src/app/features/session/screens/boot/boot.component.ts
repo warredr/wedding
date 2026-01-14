@@ -18,7 +18,7 @@ export class BootComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const k = this.route.snapshot.queryParamMap.get('k');
+    const k = this.route.snapshot.queryParamMap.get('k') ?? this.route.snapshot.paramMap.get('k');
 
     if (k) {
       this.api

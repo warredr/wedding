@@ -142,7 +142,12 @@ public sealed class AccessGate
 
     public bool IsValidQrKey(string? qrKey)
     {
-        return string.Equals(qrKey, _options.QrAccessKey, StringComparison.Ordinal);
+        if (string.IsNullOrWhiteSpace(qrKey))
+        {
+            return false;
+        }
+
+        return string.Equals(qrKey.Trim(), _options.QrAccessKey, StringComparison.OrdinalIgnoreCase);
     }
 
     public bool IsValidSixDigitCode(string? code)

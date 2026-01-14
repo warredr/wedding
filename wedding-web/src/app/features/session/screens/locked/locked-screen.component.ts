@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, finalize, of } from 'rxjs';
@@ -11,8 +11,9 @@ import { SessionExpiryService } from '../../../../shared/services/session-expiry
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './locked-screen.component.html',
+  styleUrls: ['./locked-screen.component.scss'],
 })
-export class LockedScreenComponent {
+export class LockedScreenComponent implements OnInit {
   readonly form = new FormGroup({
     code: new FormControl('', {
       nonNullable: true,
@@ -25,12 +26,20 @@ export class LockedScreenComponent {
 
   loading = false;
   error: string | null = null;
+  isFocused = false;
+  validationState: 'idle' | 'valid' | 'invalid' = 'idle';
+  fadeOut = false;
 
   constructor(
     private readonly api: RsvpApi,
     private readonly router: Router,
     private readonly sessionExpiry: SessionExpiryService
   ) {}
+
+  ngOnInit(): void {
+    // Auto-focus on the input when component initializes
+    setTimeout(() => this.focusInput(), 100);
+  }
 
   get displayDigits(): string[] {
     const raw = this.form.controls.code.value ?? '';
@@ -41,12 +50,14 @@ export class LockedScreenComponent {
   focusInput(): void {
     const el = this.codeInput?.nativeElement;
     if (!el) return;
-    queueMicrotask(() => el.focus());
+    el.focus();
+    this.isFocused = true;
   }
 
   onCodeValueChange(rawValue: string): void {
     const digits = (rawValue ?? '').replace(/\D/g, '').slice(0, 6);
     this.error = null;
+    this.validationState = 'idle';
 
     // Keep the form control as the single source of truth.
     this.form.controls.code.setValue(digits);
@@ -56,10 +67,6 @@ export class LockedScreenComponent {
     const el = this.codeInput?.nativeElement;
     if (el && el.value !== digits) {
       el.value = digits;
-    }
-
-    if (digits.length === 6) {
-      this.submit();
     }
   }
 
@@ -87,12 +94,28 @@ export class LockedScreenComponent {
       )
       .subscribe((res) => {
         if (res) {
+          // Show success state
+          this.validationState = 'valid';
+          
           // Arm auto-logout timer.
           const anyRes = res as any;
           if (typeof anyRes.expiresAtUtc === 'string') {
             this.sessionExpiry.setExpiresAtUtc(anyRes.expiresAtUtc);
           }
-          void this.router.navigateByUrl('/welcome');
+          
+          // Wait for animation, then fade out and navigate
+          setTimeout(() => {
+            this.fadeOut = true;
+            setTimeout(() => {
+              void this.router.navigateByUrl('/welcome');
+            }, 400);
+          }, 800);
+        } else {
+          // Show error state
+          this.validationState = 'invalid';
+          setTimeout(() => {
+            this.validationState = 'idle';
+          }, 1500);
         }
       });
   }

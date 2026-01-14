@@ -10,6 +10,8 @@ import { unsavedChangesGuard } from './shared/guards/unsaved-changes.guard';
 
 export const routes: Routes = [
 	{ path: '', pathMatch: 'full', component: BootComponent },
+	{ path: 'qr', component: BootComponent },
+	{ path: 'qr/:k', component: BootComponent },
 	{ path: 'locked', component: LockedScreenComponent },
 	{ path: 'welcome', component: WelcomeScreenComponent },
 	{ path: 'search', component: SearchScreenComponent },

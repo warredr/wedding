@@ -1,50 +1,59 @@
-<div class="page page--invite page--center">
-  <div class="page__content">
-    <div class="card">
-      <h1 class="title">Toegangscode</h1>
-      <p class="muted--spaced">Vul je 6-cijferige code in.</p>
+<div class="locked-container" [class.fade-out]="fadeOut">
+  <!-- Lock Icon -->
+  <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+  </svg>
 
-      <form [formGroup]="form" (ngSubmit)="submit()" class="field">
-        <div class="otp" role="group" aria-labelledby="codeLabel" (click)="focusInput()">
-          <span id="codeLabel" class="sr-only">6-cijferige toegangscode</span>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Hidden input for actual data -->
+    <input
+      #codeInput
+      class="otp-hidden-input"
+      autocomplete="one-time-code"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      maxlength="6"
+      [disabled]="loading || validationState !== 'idle'"
+      [value]="form.controls.code.value"
+      (input)="onCodeValueChange($any($event.target).value)"
+      (blur)="form.controls.code.markAsTouched()"
+      aria-label="6-cijferige toegangscode"
+    />
 
-          <input
-            #codeInput
-            class="otp__input"
-            autocomplete="one-time-code"
-            inputmode="numeric"
-            pattern="[0-9]*"
-            maxlength="6"
-            [disabled]="loading"
-            [value]="form.controls.code.value"
-            (input)="onCodeValueChange($any($event.target).value)"
-            (blur)="form.controls.code.markAsTouched()"
-            aria-label="6-cijferige toegangscode"
-          />
-
-          <div class="otp__cells" aria-hidden="true">
-            <div
-              *ngFor="let d of displayDigits; let i = index"
-              class="otp__cell"
-              [class.otp__cell--filled]="!!d"
-            >
-              {{ d }}
-            </div>
-          </div>
-        </div>
-
-        <p *ngIf="form.controls.code.touched && form.controls.code.invalid" class="error">
-          Code moet precies 6 cijfers zijn.
-        </p>
-
-        <p *ngIf="error" class="error error--spaced">{{ error }}</p>
-        <p *ngIf="loading" class="muted">Controleren…</p>
-
-        <button type="submit" class="button cta-button" [disabled]="loading || form.invalid">
-          <span class="cta-button__text">Verder</span>
-          <span class="cta-button__arrow" aria-hidden="true">→</span>
-        </button>
-      </form>
+    <!-- Visual digit boxes -->
+    <div class="otp-input-group" (click)="focusInput()" role="group" aria-labelledby="codeLabel">
+      <span id="codeLabel" class="sr-only">6-cijferige toegangscode</span>
+      <div
+        *ngFor="let d of displayDigits; let i = index"
+        class="otp-digit"
+        [class.filled]="!!d"
+        [class.focused]="isFocused && i === form.controls.code.value.length"
+        [class.valid]="validationState === 'valid'"
+        [class.invalid]="validationState === 'invalid'"
+      >
+        {{ d }}
+      </div>
     </div>
-  </div>
+
+    <button 
+      type="submit" 
+      class="submit-button" 
+      [class.valid]="validationState === 'valid'"
+      [disabled]="loading || form.invalid || validationState !== 'idle'">
+      <svg 
+        *ngIf="validationState === 'valid'" 
+        class="check-icon" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        stroke-linecap="round" 
+        stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span>Ontgrendelen</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+  </form>
 </div>

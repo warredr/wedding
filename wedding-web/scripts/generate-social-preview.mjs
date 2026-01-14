@@ -20,16 +20,32 @@ const overlaySvg = `
     <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#000" stop-opacity="0" />
       <stop offset="58%" stop-color="#000" stop-opacity="0" />
-      <stop offset="100%" stop-color="#000" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0.6" />
     </linearGradient>
   </defs>
 
   <rect x="0" y="0" width="${width}" height="${height}" fill="url(#fade)" />
 
-  <text x="78" y="500" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="72" font-weight="600">
-    Chelsea &amp; Warre
+  <g transform="translate(78, 470)">
+    <!-- Names in serif italic, matching welcome screen -->
+    <text x="0" y="0" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="500" font-style="italic">
+      Chelsea
+    </text>
+    <text x="270" y="0" fill="rgba(255,255,255,0.7)" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="400">
+      &amp;
+    </text>
+    <text x="340" y="0" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="500" font-style="italic">
+      Warre
+    </text>
+  </g>
+
+  <!-- Tagline in subtle serif -->
+  <text x="82" y="540" fill="rgba(255,255,255,0.85)" font-family="Georgia, 'Times New Roman', Times, serif" font-size="28" font-style="italic">
+    Come for the love, stay for the party
   </text>
-  <text x="82" y="555" fill="rgba(255,255,255,0.92)" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="34" font-weight="600">
+
+  <!-- Date -->
+  <text x="82" y="588" fill="rgba(255,255,255,0.95)" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="32" font-weight="600">
     6 juni 2026
   </text>
 </svg>
