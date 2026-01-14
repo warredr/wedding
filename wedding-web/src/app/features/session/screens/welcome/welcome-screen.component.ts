@@ -106,17 +106,7 @@ export class WelcomeScreenComponent implements OnInit, AfterViewInit, OnDestroy 
         catchError(() => of(null))
       )
       .subscribe((cfg) => {
-        const simulateClosed = this.route.snapshot.queryParamMap.get('simulate_closed') === 'true';
-
-        if (simulateClosed) {
-          // Force a config object if one doesn't exist, or update the existing one
-          this.config = cfg
-            ? { ...cfg, isClosed: true }
-            : { isClosed: true, deadlineDate: '2026-05-01', sessionExpiresAtUtc: '' };
-        } else {
-          this.config = cfg;
-        }
-
+        this.config = cfg;
         this.loading = false;
 
         if (this.config && !this.config.isClosed) {

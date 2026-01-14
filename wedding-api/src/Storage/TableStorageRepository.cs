@@ -275,6 +275,9 @@ public sealed class TableStorageRepository : IRsvpStorage
             result[entity.RowKey] = entity;
         }
 
+        return result;
+    }
+
     public async Task<IReadOnlyDictionary<string, RsvpPersonEntity>> GetAllResponsesAsync(CancellationToken cancellationToken)
     {
         await ResponsesTable.CreateIfNotExistsAsync(cancellationToken);
