@@ -8,12 +8,20 @@ export const authRedirectInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const sessionExpiry = inject(SessionExpiryService);
 
-  return next(req).pipe(
+  let request = req;
+  const skipRedirect = req.headers.has('X-Skip-Auth-Redirect');
+  if (skipRedirect) {
+    request = req.clone({ headers: req.headers.delete('X-Skip-Auth-Redirect') });
+  }
+
+  return next(request).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse && (err.status === 401 || err.status === 403)) {
         sessionExpiry.expireNow();
+
         // Avoid infinite loops if we're already on /locked.
-        if (router.url !== '/locked') {
+        // Also skip redirect if specifically requested (e.g. for verification checks).
+        if (!skipRedirect && router.url !== '/locked') {
           void router.navigateByUrl('/locked');
         }
       }

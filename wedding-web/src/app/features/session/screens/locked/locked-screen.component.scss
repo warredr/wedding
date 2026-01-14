@@ -32,9 +32,9 @@
 
 .otp-input-group {
   display: flex;
-  gap: 12px;
+  gap: clamp(6px, 2vw, 12px);
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .otp-hidden-input {
@@ -44,15 +44,15 @@
 }
 
 .otp-digit {
-  width: 52px;
-  height: 64px;
+  width: clamp(42px, 12vw, 52px);
+  height: clamp(52px, 15vw, 64px);
   background: rgba(255, 255, 255, 0.03);
   border: 2px solid rgba(211, 186, 169, 0.2);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: clamp(20px, 6vw, 28px);
   font-weight: 500;
   color: #e5e5e5;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,7 +89,7 @@
 
 .submit-button {
   width: 100%;
-  padding: 18px 32px;
+  padding: 16px 24px;
   background: linear-gradient(135deg, #88432d 0%, #6d3524 100%);
   color: #fff;
   border: none;

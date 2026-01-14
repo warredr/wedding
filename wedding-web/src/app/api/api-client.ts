@@ -9,19 +9,21 @@ import { environment } from '../../environments/environment';
 export class ApiClient {
   private readonly baseUrl = environment.apiBaseUrl.replace(/\/$/, '');
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
-  get<T>(path: string, params?: Record<string, string>): Observable<T> {
+  get<T>(path: string, params?: Record<string, string>, headers?: Record<string, string>): Observable<T> {
     return this.http.get<T>(this.url(path), {
       withCredentials: true,
       params: params ? new HttpParams({ fromObject: params }) : undefined,
+      headers: headers,
     });
   }
 
-  post<T>(path: string, body?: unknown, params?: Record<string, string>): Observable<T> {
+  post<T>(path: string, body?: unknown, params?: Record<string, string>, headers?: Record<string, string>): Observable<T> {
     return this.http.post<T>(this.url(path), body ?? {}, {
       withCredentials: true,
       params: params ? new HttpParams({ fromObject: params }) : undefined,
+      headers: headers,
     });
   }
 

@@ -13,10 +13,14 @@ import {
   providedIn: 'root',
 })
 export class RsvpApi {
-  constructor(private readonly api: ApiClient) {}
+  constructor(private readonly api: ApiClient) { }
 
-  getConfig(): Observable<ConfigDto> {
-    return this.api.get<ConfigDto>('/config');
+  getConfig(options?: { skipRedirect?: boolean }): Observable<ConfigDto> {
+    const headers: Record<string, string> = {};
+    if (options?.skipRedirect) {
+      headers['X-Skip-Auth-Redirect'] = 'true';
+    }
+    return this.api.get<ConfigDto>('/config', undefined, headers);
   }
 
   startSession(code: string): Observable<{ ok: boolean; expiresAtUtc: string } | { ok: true }> {
