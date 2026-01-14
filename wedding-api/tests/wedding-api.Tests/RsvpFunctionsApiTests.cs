@@ -17,6 +17,9 @@ public sealed class RsvpFunctionsApiTests
 
         public Task<WeddingApi.Domain.GroupDefinition?> GetGroupAsync(string groupId, CancellationToken cancellationToken)
             => Task.FromResult<WeddingApi.Domain.GroupDefinition?>(null);
+
+        public Task<IReadOnlyList<WeddingApi.Domain.GroupDefinition>> GetAllGroupsAsync(CancellationToken cancellationToken)
+            => Task.FromResult<IReadOnlyList<WeddingApi.Domain.GroupDefinition>>(Array.Empty<WeddingApi.Domain.GroupDefinition>());
     }
 
     private sealed class StubStorage : IRsvpStorage
@@ -35,6 +38,12 @@ public sealed class RsvpFunctionsApiTests
 
         public Task ResetGroupAsync(string groupId, CancellationToken cancellationToken)
             => throw new NotImplementedException();
+
+        public Task<IReadOnlyDictionary<string, RsvpPersonEntity>> GetAllResponsesAsync(CancellationToken cancellationToken)
+            => Task.FromResult<IReadOnlyDictionary<string, RsvpPersonEntity>>(new Dictionary<string, RsvpPersonEntity>());
+
+        public Task<IReadOnlyDictionary<string, GroupState>> GetAllGroupStatesAsync(CancellationToken cancellationToken)
+            => Task.FromResult<IReadOnlyDictionary<string, GroupState>>(new Dictionary<string, GroupState>());
     }
 
     private sealed class StubOutbox : ISheetExportOutbox
