@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
 const inputPath = path.join(projectRoot, 'public', 'images', 'home-welcome.webp');
-const outputPath = path.join(projectRoot, 'public', 'images', 'social-preview.png');
+const outputPath = path.join(projectRoot, 'public', 'images', 'social-preview.webp');
 
 const width = 1200;
 const height = 630;
@@ -31,10 +31,10 @@ const overlaySvg = `
     <text x="0" y="0" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="500" font-style="italic">
       Chelsea
     </text>
-    <text x="270" y="0" fill="rgba(255,255,255,0.7)" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="400">
+    <text x="250" y="0" fill="rgba(255,255,255,0.7)" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="400">
       &amp;
     </text>
-    <text x="340" y="0" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="500" font-style="italic">
+    <text x="315" y="0" fill="#fff" font-family="Georgia, 'Times New Roman', Times, serif" font-size="68" font-weight="500" font-style="italic">
       Warre
     </text>
   </g>
@@ -54,7 +54,7 @@ const overlaySvg = `
 await sharp(inputPath)
   .resize(width, height, { fit: 'cover', position: 'centre' })
   .composite([{ input: Buffer.from(overlaySvg), top: 0, left: 0 }])
-  .png({ compressionLevel: 9 })
+  .webp({ quality: 90 })
   .toFile(outputPath);
 
 console.log(`Wrote ${outputPath}`);
