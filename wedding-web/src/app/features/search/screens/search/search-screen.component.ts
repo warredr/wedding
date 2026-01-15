@@ -260,25 +260,37 @@ export class SearchScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get dropdownItems(): Array<DropdownListItem<SearchResultDto>> {
-    return this.results.map((r) => {
-      const secondsLeft = this.secondsLeftForGroup(r.groupId);
-      const cooldownSuffix = secondsLeft > 0 ? ` · Probeer opnieuw binnen ${this.formatCountdown(secondsLeft)}` : '';
-      const groupLabel = r.groupLabelFirstNames.trim();
-      const isMultiPerson = /,|\s&\s|\sen\s/i.test(groupLabel);
-      const groupPart = isMultiPerson ? `Groep: ${groupLabel}` : '';
-      const statusPart = r.groupStatus === 'Confirmed' ? 'Bevestigd' : '';
-      const baseSecondary = [groupPart, statusPart].filter(Boolean).join(' · ');
-      const secondary = `${baseSecondary}${cooldownSuffix}`.trim();
-      return {
-        id: `${r.groupId}:${r.personId}`,
-        primary: r.fullName,
-        secondary: secondary.length > 0 ? secondary : undefined,
-        disabled: r.groupStatus === 'Confirmed' || secondsLeft > 0,
-        class: r.groupStatus === 'Confirmed' ? 'dropdown-list__item--confirmed' : undefined,
-        isConfirmed: r.groupStatus === 'Confirmed',
-        data: r,
-      } satisfies DropdownListItem<SearchResultDto>;
-    });
+    // Defensive coding: if the backend/data ever returns a partial record (or a bad cache on mobile),
+    // avoid throwing in a template getter which can make the UI feel "frozen".
+    return this.results
+      .filter((r) => !!r && typeof (r as any).groupId === 'string' && typeof (r as any).personId === 'string')
+      .map((r) => {
+        const groupId = (r as any).groupId as string;
+        const personId = (r as any).personId as string;
+        const fullName = typeof (r as any).fullName === 'string' ? ((r as any).fullName as string) : '';
+        const groupLabelFirstNames = typeof (r as any).groupLabelFirstNames === 'string'
+          ? ((r as any).groupLabelFirstNames as string)
+          : '';
+
+        const secondsLeft = this.secondsLeftForGroup(groupId);
+        const cooldownSuffix = secondsLeft > 0 ? ` · Probeer opnieuw binnen ${this.formatCountdown(secondsLeft)}` : '';
+        const groupLabel = groupLabelFirstNames.trim();
+        const isMultiPerson = groupLabel.length > 0 && /,|\s&\s|\sen\s/i.test(groupLabel);
+        const groupPart = isMultiPerson ? `Groep: ${groupLabel}` : '';
+        const statusPart = r.groupStatus === 'Confirmed' ? 'Bevestigd' : '';
+        const baseSecondary = [groupPart, statusPart].filter(Boolean).join(' · ');
+        const secondary = `${baseSecondary}${cooldownSuffix}`.trim();
+
+        return {
+          id: `${groupId}:${personId}`,
+          primary: fullName,
+          secondary: secondary.length > 0 ? secondary : undefined,
+          disabled: r.groupStatus === 'Confirmed' || secondsLeft > 0,
+          class: r.groupStatus === 'Confirmed' ? 'dropdown-list__item--confirmed' : undefined,
+          isConfirmed: r.groupStatus === 'Confirmed',
+          data: r,
+        } satisfies DropdownListItem<SearchResultDto>;
+      });
   }
 
   onInput(value: string): void {
@@ -293,6 +305,10 @@ export class SearchScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   select(item: SearchResultDto): void {
+    if (!item || typeof (item as any).groupId !== 'string' || typeof (item as any).personId !== 'string') {
+      return;
+    }
+
     if (item.groupStatus === 'Confirmed') {
       return;
     }

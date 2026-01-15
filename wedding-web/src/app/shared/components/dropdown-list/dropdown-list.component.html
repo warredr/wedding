@@ -3,7 +3,7 @@
     *ngFor="let item of items"
     type="button"
     class="dropdown-list__item"
-    [class]="item.class"
+    [ngClass]="item.class"
     (click)="onSelect(item)"
     [disabled]="!!item.disabled"
   >
