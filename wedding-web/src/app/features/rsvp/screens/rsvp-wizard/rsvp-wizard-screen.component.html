@@ -19,22 +19,7 @@
 		</div>
 
 		<ng-container *ngIf="!loading && !error && draft.state() as s">
-			<div *ngIf="s.members.length > 1" class="rsvp-personTabs" aria-label="Personen">
-				<button
-					*ngFor="let m of s.members"
-					type="button"
-					class="rsvp-personTabs__item"
-					[class.rsvp-personTabs__item--active]="m.personId === s.currentPersonId"
-					(click)="goToPerson(m.personId)"
-				>
-					<span
-						class="rsvp-personTabs__check"
-						[class.rsvp-personTabs__check--done]="draft.completionByPersonId()[m.personId]"
-						aria-hidden="true"
-					>✓</span>
-					<span class="rsvp-personTabs__name">{{ personFirstName(m.fullName) }}</span>
-				</button>
-			</div>
+
 
 			<div class="card mt12">
 				<div class="stack" *ngIf="draft.currentPersonDraft() as d">
