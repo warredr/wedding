@@ -27,7 +27,7 @@ describe('DropdownListComponent', () => {
     const buttons = fixture.debugElement.queryAll(By.css('button'));
     expect(buttons.length).toBe(2);
 
-    buttons[0]!.nativeElement.click();
+    buttons[0]!.nativeElement.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(fixture.componentInstance.selectItem.emit).toHaveBeenCalledWith(items[0]!);
   });
 
@@ -44,7 +44,7 @@ describe('DropdownListComponent', () => {
     const button = fixture.debugElement.query(By.css('button'));
     expect(button.nativeElement.disabled).toBeTrue();
 
-    button.nativeElement.click();
+    button.nativeElement.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(fixture.componentInstance.selectItem.emit).not.toHaveBeenCalled();
   });
 });

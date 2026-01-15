@@ -37,9 +37,10 @@ export class SearchScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   private leaveTimer: number | null = null;
   private focusTimer: number | null = null;
   private focusTimer2: number | null = null;
-  private touchStartX: number | null = null;
-  private touchStartY: number | null = null;
-  private touchStartAt: number | null = null;
+  private pointerStartX: number | null = null;
+  private pointerStartY: number | null = null;
+  private pointerStartAt: number | null = null;
+  private lastPointerUpAt = 0;
 
   private readonly destroy$ = new Subject<void>();
   private readonly query$ = new Subject<string>();
@@ -111,6 +112,20 @@ export class SearchScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Keep the keyboard open on mobile.
     this.focusSearchInput();
+  }
+
+  onClearActivate(ev: Event): void {
+    // Support both pointer taps and keyboard activation.
+    // iOS can fire a synthetic click after pointerup; ignore the click in that case.
+    if (ev instanceof MouseEvent && Date.now() - this.lastPointerUpAt < 700) {
+      return;
+    }
+
+    if (ev instanceof PointerEvent) {
+      this.lastPointerUpAt = Date.now();
+    }
+
+    this.clearQuery();
   }
 
   private startCountdownTimer(): void {
@@ -221,36 +236,56 @@ export class SearchScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 220);
   }
 
-  onTouchStart(ev: TouchEvent): void {
-    const t = ev.touches.item(0);
-    if (!t) {
+  private isInteractiveSwipeTarget(target: EventTarget | null): boolean {
+    if (!(target instanceof Element)) {
+      return false;
+    }
+
+    // Avoid treating normal taps/scroll gestures on interactive UI as a swipe-to-go-back.
+    return !!target.closest(
+      'input, textarea, select, button, a, [role="button"], .dropdown-list, .topbar, .input-wrap'
+    );
+  }
+
+  onPointerDown(ev: PointerEvent): void {
+    // Only track touch swipes; mouse/pen should not trigger swipe navigation.
+    if (!ev.isPrimary || ev.pointerType !== 'touch') {
       return;
     }
 
-    this.touchStartX = t.clientX;
-    this.touchStartY = t.clientY;
-    this.touchStartAt = Date.now();
+    if (this.isInteractiveSwipeTarget(ev.target)) {
+      return;
+    }
+
+    this.pointerStartX = ev.clientX;
+    this.pointerStartY = ev.clientY;
+    this.pointerStartAt = Date.now();
   }
 
-  onTouchEnd(ev: TouchEvent): void {
-    const startX = this.touchStartX;
-    const startY = this.touchStartY;
-    const startAt = this.touchStartAt;
-    this.touchStartX = null;
-    this.touchStartY = null;
-    this.touchStartAt = null;
+  onPointerCancel(): void {
+    this.pointerStartX = null;
+    this.pointerStartY = null;
+    this.pointerStartAt = null;
+  }
+
+  onPointerUp(ev: PointerEvent): void {
+    if (!ev.isPrimary || ev.pointerType !== 'touch') {
+      return;
+    }
+
+    const startX = this.pointerStartX;
+    const startY = this.pointerStartY;
+    const startAt = this.pointerStartAt;
+    this.pointerStartX = null;
+    this.pointerStartY = null;
+    this.pointerStartAt = null;
 
     if (startX === null || startY === null || startAt === null) {
       return;
     }
 
-    const t = ev.changedTouches.item(0);
-    if (!t) {
-      return;
-    }
-
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+    const dx = ev.clientX - startX;
+    const dy = ev.clientY - startY;
     const dt = Date.now() - startAt;
 
     // Right swipe: go back.

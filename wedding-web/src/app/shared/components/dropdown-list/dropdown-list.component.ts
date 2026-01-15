@@ -22,9 +22,20 @@ export class DropdownListComponent<T = unknown> {
 
   @Output() selectItem = new EventEmitter<DropdownListItem<T>>();
 
-  onSelect(item: DropdownListItem<T>): void {
+  private lastPointerUpAt = 0;
+
+  onActivate(item: DropdownListItem<T>, ev?: Event): void {
     if (item.disabled) {
       return;
+    }
+
+    // Some browsers can fire a synthetic click after pointerup; ignore the click in that case.
+    if (ev instanceof MouseEvent && Date.now() - this.lastPointerUpAt < 700) {
+      return;
+    }
+
+    if (ev instanceof PointerEvent) {
+      this.lastPointerUpAt = Date.now();
     }
 
     this.selectItem.emit(item);

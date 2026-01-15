@@ -4,7 +4,8 @@
     type="button"
     class="dropdown-list__item"
     [ngClass]="item.class"
-    (click)="onSelect(item)"
+    (pointerup)="onActivate(item, $event)"
+    (click)="onActivate(item, $event)"
     [disabled]="!!item.disabled"
   >
     <div class="dropdown-list__content">

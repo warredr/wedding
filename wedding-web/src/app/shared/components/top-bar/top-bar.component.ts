@@ -17,9 +17,21 @@ export class TopBarComponent {
 
   @Output() backPressed = new EventEmitter<void>();
 
+  private lastPointerUpAt = 0;
+
   constructor(private readonly router: Router) {}
 
-  back(): void {
+  back(ev?: Event): void {
+    // Support both pointer taps and keyboard activation.
+    // Some browsers (notably iOS) can fire a synthetic click after pointerup; ignore the click in that case.
+    if (ev instanceof MouseEvent && Date.now() - this.lastPointerUpAt < 700) {
+      return;
+    }
+
+    if (ev instanceof PointerEvent) {
+      this.lastPointerUpAt = Date.now();
+    }
+
     this.backPressed.emit();
     if (this.preventDefaultBack) {
       return;

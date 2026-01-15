@@ -2,8 +2,9 @@
 	class="page page--search page--entering"
 	[class.page--entering-right]="enteringFromRight"
 	[class.page--leaving-right]="leavingToRight"
-	(touchstart)="onTouchStart($event)"
-	(touchend)="onTouchEnd($event)"
+	(pointerdown)="onPointerDown($event)"
+	(pointerup)="onPointerUp($event)"
+	(pointercancel)="onPointerCancel()"
 >
 	<app-top-bar
 		backLabel="Ga terug"
@@ -36,7 +37,8 @@
 							type="button"
 							class="input-clear"
 							*ngIf="q.trim().length > 0"
-							(click)="clearQuery()"
+							(pointerup)="onClearActivate($event)"
+							(click)="onClearActivate($event)"
 							aria-label="Wis zoekveld"
 						>
 							×

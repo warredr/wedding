@@ -1,5 +1,5 @@
 <div class="topbar">
-	<button type="button" class="topbar__back" (click)="back()">
+	<button type="button" class="topbar__back" (pointerup)="back($event)" (click)="back($event)">
 		<span *ngIf="showBackArrow" class="topbar__backArrow" aria-hidden="true">←</span>
 		<span class="topbar__backText">{{ backLabel }}</span>
 	</button>

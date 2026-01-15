@@ -418,6 +418,7 @@ textarea {
 	height: 24px;
 	border-radius: 999px;
 	border: 0;
+	touch-action: manipulation;
 	background: rgba(142, 142, 147, 0.35);
 	color: rgba(255, 255, 255, 0.98);
 	font-size: 14px;
@@ -801,6 +802,7 @@ textarea {
 	color: inherit;
 	display: flex;
 	gap: 12px;
+	touch-action: manipulation;
 }
 
 .dropdown-list__content {
@@ -983,6 +985,7 @@ textarea {
 	align-items: center;
 	gap: 8px;
 	color: inherit;
+	touch-action: manipulation;
 }
 
 .topbar__back:focus {
